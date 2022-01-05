@@ -70,7 +70,7 @@ public class Driver {
 		// Begin Q10
 		System.out.println("Q10 Result:");
 		
-		Q10.whoseOlder();
+		Q10.whoseOlder(24, 36);
 	}
 
 

@@ -12,12 +12,13 @@ public class Q8 {
 	    while (backward > forward) {
 	        char forwardChar = testWord.charAt(forward++);
 	        char backwardChar = testWord.charAt(backward--);
-	        if (forwardChar != backwardChar) {
-	            return a set of words I can add to one array; //how do I get the true into one group
-	        } else {
-	        	return a set of words I can add to the other array; //how do I get the false into one group
-	        }
-	    }
+	      
+	    
+	    if (forwardChar != backwardChar) {
+            return a set of words I can add to one array; //how do I get the true into one group
+        } else {
+        	return a set of words I can add to the other array; //how do I get the false into one group
+        }
 	}
 
 	public static void main(String[] args) {
