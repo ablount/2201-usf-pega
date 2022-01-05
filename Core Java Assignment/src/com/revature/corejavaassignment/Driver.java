@@ -44,9 +44,33 @@ public class Driver {
 		// Begin Q5
 		System.out.println("Q5 Result:");
 				
-		//System.out.println(Q5.Substring("Make me shorter", 5));
-		Q5.Substring("this is starting to make sense I hope", 10);
-    
+		System.out.println(Q5.Substring("Make me shorter", 5));
+		
+		// Begin Q6
+		System.out.println("Q6 Result:");
+		
+		Q6.findEvens(35);
+		Q6.findEvens(24);
+		
+		// Begin Q7
+		System.out.println("Q7 Result:");
+		
+		Q7.employeeSort();
+		
+		// Begin Q8
+		System.out.println("Q8 Result:");
+		
+		System.out.println("Need help turning psuedocode into \"code\" code.");
+		
+		// Begin Q9
+		System.out.println("Q9 Result:");
+		
+		System.out.println("Need help turning psuedocode into \"code\" code.");
+		
+		// Begin Q10
+		System.out.println("Q10 Result:");
+		
+		Q10.whoseOlder();
 	}
 
 
