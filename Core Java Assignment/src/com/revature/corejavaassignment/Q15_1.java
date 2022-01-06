@@ -7,6 +7,17 @@ package com.revature.corejavaassignment;
  * Hard code two operands in a test class having a main method that calls the implementing class.
  * */
 
-public class Q15 {
+public class Q15_1 {
+	
+	public interface mathHelper{
+		
+		public int addition(int A, int B);
+	
+		public int subtraction(int A, int B);
+		
+		public int multiplication(int A, int B);
+		
+		public int division(int A, int B);
+	}
 
 }

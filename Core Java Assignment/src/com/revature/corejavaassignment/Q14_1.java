@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Q14_1 {
 
-	public static void askQuestions() throws Exception {
+	public static void askQuestions() {
 			// asking the user for input 
 			System.out.println("How can I help you today?");
 			System.out.println("1 will find the Square Root of any given number.");
@@ -21,10 +21,9 @@ public class Q14_1 {
 			System.out.println("Please enter 1, 2, or 3"); // asks for the input
 		    int inputNum = getNum.nextInt();  // reads user input
 		    System.out.println("Thanks!");
-		    getNum.close();
 		    
 
-		   // want to add a while loop but need to remember how to stop it
+		   
 		   switch (inputNum) {
 		   		
 			  case 1: // if the user inputs 1 - this case runs
@@ -32,7 +31,6 @@ public class Q14_1 {
 				  System.out.println("Please enter the integer for which you'd like the square root:"); // asks for the number
 				  int sqrtNum = sqrtObj.nextInt();  // reads user input		
 				  System.out.println(Math.sqrt(sqrtNum));; // prints out the number
-				  getNum.close();
 			    break;
 			 case 2: // if the user inputs 2 - this case runs
 				   Date date = new Date(); // these two lines print out the date and time
@@ -41,12 +39,11 @@ public class Q14_1 {
 			  case 3: // if 3, this case
 			    Q14_2.stringBreaker(); // I coded this on a separate page
 			    break;
-			  default: // this prints if they don't enter 1 2 or 3
-				 throw new Exception("Unfortunately, that is not a valid number. Please review the available options, and try again.");
-
+			  default: System.out.println("Unfortunately, that is not a valid number. Please review the available options, and try again.");
+			  	break;
 		   		}
 		 	   	
-		
+		   
 	}
 	
 		
@@ -55,10 +52,15 @@ public class Q14_1 {
 	    	while (true) {
 	    		
 	    	try {		
-	    		askQuestions();}
+	    		askQuestions();
+	    	
+	    	}
+	 
 	    	catch (Exception e){
 	    		System.out.println("Unfortunately, that is not a valid number. Please review the available options, and try again.");
-	    		}
+	    			
+	    	}
+	    	
 	    	}
 	    }
 	}

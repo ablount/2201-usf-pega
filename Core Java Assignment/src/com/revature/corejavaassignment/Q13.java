@@ -22,3 +22,4 @@ public class Q13 {
 	}
 	
 }
+// redo as a for loop with a counter
