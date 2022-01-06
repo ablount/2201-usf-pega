@@ -4,9 +4,25 @@ import java.util.ArrayList;
 
 public class Q9 {
 	
-	//Create an ArrayList which stores numbers from 1 to 100 and prints out all the prime numbers to the console.
+	public static boolean isPrimeNumber(int testNumb) {
+		
+		if (testNumb == 1) {
+			return false;
+			}
+
+		for (int testNumb2 = 2; testNumb2 <= testNumb / 2; testNumb2++) {
+		    
+		     if (testNumb % testNumb2 == 0) {
+		        return false;
+		      
+		      }
+		    }
+		return true;
+	}
+
+	    
 	
-	public static void main(String[] args) {
+	public static void primeTime() {
 		
 		//this sets the size of the array to 100
 		ArrayList<Integer> primeList = new ArrayList<Integer>(100);
@@ -18,11 +34,19 @@ public class Q9 {
 		 
 		}
 		
-		// not sure how to pull only prime numbers out of the list
+		System.out.println("Here are the Prime Numbers:");
 		
+		for (int primeNum : primeList) {
+			
+			if (isPrimeNumber(primeNum)) {
+			
+				System.out.println(primeNum);
+				}
+			
+			}
+
+		}
 		
-		
-		System.out.println(onlyPrimeNumbers);
 		
 	}
-}
+

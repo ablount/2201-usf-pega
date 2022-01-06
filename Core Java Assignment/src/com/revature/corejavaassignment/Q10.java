@@ -2,7 +2,6 @@ package com.revature.corejavaassignment;
 
 public class Q10 {
 	
-
 	public static void whoseOlder(int i, int j) {
 			
 			int ageJohn =  i;

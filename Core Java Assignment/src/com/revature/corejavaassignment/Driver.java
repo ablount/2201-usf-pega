@@ -17,10 +17,8 @@ public class Driver {
 		// Begin Q2
 		System.out.println("Q2 Result:");
 		
-		// why does this one not need Q2 q2 = new Q2(); to run?
 		int N = 25;
 		Q2.Fibonacci(N);
-		//gave an error until I added Q2. in front of Fibonacci
 		
 		// Begin Q3
 		System.out.println("Q3 Result:");
@@ -37,9 +35,6 @@ public class Driver {
 		
 		int num = 6;
         System.out.println("Factorial of "+ num + " is " + Q4.factorial(6));
-        /*finally figured out I needed to add q4. in front of factorial - 
-        not quiet grasping when that's necessary, and why the one I added in Q2
-        was caps and this one was lower case*/
         
 		// Begin Q5
 		System.out.println("Q5 Result:");
@@ -60,17 +55,41 @@ public class Driver {
 		// Begin Q8
 		System.out.println("Q8 Result:");
 		
-		System.out.println("Need help turning psuedocode into \"code\" code.");
+		Q8.letsDoIt();
 		
 		// Begin Q9
 		System.out.println("Q9 Result:");
 		
-		System.out.println("Need help turning psuedocode into \"code\" code.");
+		Q9.primeTime();
 		
 		// Begin Q10
 		System.out.println("Q10 Result:");
 		
 		Q10.whoseOlder(24, 36);
+		
+		// Begin Q11
+		System.out.println("Q11 Result:");
+		
+		Q11_1.floatTogether();
+		
+		// Begin Q12
+		System.out.println("Q12 Result:");
+		
+		Q12.pullingEvens();
+		
+		// Begin Q13
+		System.out.println("Q13 Result:");
+		
+		Q13.patternPrinter();
+		
+		// Begin Q14
+		System.out.println("Q14 Result:");
+		
+		try {		
+    		Q14_1.askQuestions();}
+    	catch (Exception e){
+    		System.out.println("Unfortunately, that is not a valid number. Please review the available options, and try again.");
+    		}
 	}
 
 
