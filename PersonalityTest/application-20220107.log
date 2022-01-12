@@ -1,0 +1,15 @@
+2022-01-07 15:12:32.338 [main] DEBUG com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:12:32.341 [main] INFO  com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:12:32.341 [main] WARN  com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:12:32.341 [main] ERROR com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:12:32.341 [main] FATAL com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:01.083 [main] DEBUG com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:01.086 [main] INFO  com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:01.086 [main] WARN  com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:01.086 [main] ERROR com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:01.086 [main] FATAL com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:51.088 [main] DEBUG com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:51.090 [main] INFO  com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:51.090 [main] WARN  com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:51.091 [main] ERROR com.revature.QuestionAsker - We've just greeted the user!
+2022-01-07 15:13:51.091 [main] FATAL com.revature.QuestionAsker - We've just greeted the user!
