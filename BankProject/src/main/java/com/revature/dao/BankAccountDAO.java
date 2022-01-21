@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.revature.accounts.BankAccount;
 
 public class BankAccountDAO {
 
-	
+
 	public static BankAccount accessAccount(String username) {
 			
 			try {
@@ -66,53 +68,149 @@ public class BankAccountDAO {
 		
 		}
 	
-	public static int updateBalance(String username, int balance){
-		
-		
-		String SQLupdate = "UPDATE bankAccounts SET balance = ? WHERE account = ?";
+	
+	public static void updateBalance(String username, int balance){
 			
-		int rowsAffected = 0;
-		
-			try (Connection connection = ConnectionManager.getConnection();
-			PreparedStatement prepareStatement = connection.prepareStatement(SQLupdate)){
-				
-					prepareStatement.setInt(1, balance);
-					prepareStatement.setInt(2, accessAccount(username).accountID);
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement prepareStatement = connection.prepareStatement("UPDATE bankAccounts SET balance = ? WHERE account = ?");
+			prepareStatement.setInt(1, balance);
+			prepareStatement.setInt(2, accessAccount(username).accountID);
 
-					rowsAffected = prepareStatement.executeUpdate();
-					
-			} catch (SQLException ex) {
-			
+			prepareStatement.executeUpdate();
+				
+		} catch (SQLException ex) {
+		
 		System.err.println(ex.getMessage());
 		
 		}
-
-		return rowsAffected;
 		
 	}
 	
-	public static int updateAccountID(String joinUsername, int accountID){
+	
+	public static void updateAccountID(String joinUsername, int accountID){
 		
-		
-		String SQLupdate = "UPDATE userAccounts SET accountID = ? WHERE username = ?";
+		try{
 			
-		int rowsAffected = 0;
-		
-			try (Connection connection = ConnectionManager.getConnection();
-			PreparedStatement prepareStatement = connection.prepareStatement(SQLupdate)){
-				
-					prepareStatement.setInt(1, accountID);
-					prepareStatement.setString(2, joinUsername);
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement prepareStatement = connection.prepareStatement("UPDATE userAccounts SET accountID = ? WHERE username = ?");
+			
+			prepareStatement.setInt(1, accountID);
+			prepareStatement.setString(2, joinUsername);
 
-					rowsAffected = prepareStatement.executeUpdate();
-					
-			} catch (SQLException ex) {
-			
+			prepareStatement.executeUpdate();
+				
+		} catch (SQLException ex) {
+		
 		System.err.println(ex.getMessage());
 		
 		}
-
-		return rowsAffected;
 		
 	}
+	
+	public static ArrayList<BankAccount> getPendingAccounts() {
+		
+		try {
+			
+			ArrayList<BankAccount> pendingAccounts = new ArrayList<BankAccount>();
+			Connection connection = ConnectionManager.getConnection();
+			Statement statement = connection.createStatement();
+			
+			ResultSet rs = statement.executeQuery("SELECT * FROM bankAccounts WHERE isApproved IS NOT NULL");
+			
+			while (rs.next()) {
+				
+				int accountID = rs.getInt("account");
+				int balance = rs.getInt("balance");
+				boolean isApproved = rs.getBoolean("isApproved");
+				
+				pendingAccounts.add(new BankAccount(accountID, balance, isApproved));
+			}
+			
+			return pendingAccounts;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static void approveAccount(int accountID) {
+		
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement prepareStatement = connection.prepareStatement("UPDATE bankAccounts SET isApproved = ? WHERE account = ?");
+			prepareStatement.setBoolean(1, true);
+			prepareStatement.setInt(2, accountID);
+
+			prepareStatement.executeUpdate();
+			
+			System.out.println();
+			System.out.println("The account has been approved.");
+			System.out.println();
+			System.out.println("__________________________________");
+			System.out.println();
+				
+		} catch (SQLException ex) {
+		
+		System.err.println(ex.getMessage());
+		
+		}
+	}
+	
+	public static void denyAccount(int accountID) {
+		
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM userAccounts WHERE accountID = ?");
+			preparedStatement.setInt(1, accountID);
+			preparedStatement.executeUpdate();
+			
+			PreparedStatement preparedStatement2 = connection.prepareStatement("DELETE FROM bankAccounts WHERE account = ?");
+			preparedStatement2.setInt(1, accountID);
+			preparedStatement2.executeUpdate();
+			
+			System.out.println();
+			System.out.println("The account has been denied.");
+			System.out.println();
+			System.out.println("__________________________________");
+			System.out.println();
+				
+		} catch (SQLException ex) {
+		
+		System.err.println(ex.getMessage());
+		
+		}
+	}
+	public static void removeAccount(int accountID) {
+		
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM userAccounts WHERE accountID = ?");
+			preparedStatement.setInt(1, accountID);
+			preparedStatement.executeUpdate();
+			
+			PreparedStatement preparedStatement2 = connection.prepareStatement("DELETE FROM bankAccounts WHERE account = ?");
+			preparedStatement2.setInt(1, accountID);
+			preparedStatement2.executeUpdate();
+			
+			System.out.println();
+			System.out.println("The account has been deleted.");
+			System.out.println();
+			System.out.println("__________________________________");
+			System.out.println();
+				
+		} catch (SQLException ex) {
+		
+		System.err.println(ex.getMessage());
+		
+		}
+	}
 }
+	

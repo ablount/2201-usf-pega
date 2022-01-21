@@ -201,7 +201,6 @@ public class Menu {
 			
 		}
 		
-		
 	}
 	
 	public static String customerMenu(String username) {
@@ -217,7 +216,7 @@ public class Menu {
 		System.out.println("Check your Balance (2)");
 		System.out.println("Make a Withdrawl (3)");
 		System.out.println("Make a Deposit (4)");
-		System.out.println("Transfer money (5)");
+		System.out.println("Make a Transfer (5)");
 		System.out.println("Create an account for an additional Acccount Owner (6)");
 		System.out.println();
 		System.out.println("Return to Login Menu (7)");
@@ -291,12 +290,12 @@ public class Menu {
 		Scanner myObj = new Scanner(System.in);
 		System.out.println("Would you like to:");
 		System.out.println();
-		System.out.println("Check a Client's Balance (1)");
+		System.out.println("View a Client's Account Details (1)");
 		System.out.println("Make a Withdrawl from a Client's Account (2)");
 		System.out.println("Make a Deposit to a Client's Account (3)");
-		System.out.println("Transfer money between Client Accounts (4)");
+		System.out.println("Make a Transfer between Client Accounts (4)");
 		System.out.println();
-		System.out.println("View new Account Requests (5)");
+		System.out.println("View Bank Accounts / Approve or Deny Pending Accounts (5)");
 		System.out.println("Cancel a Client's Account (6)");
 		System.out.println();
 		System.out.println("Return to Login Menu (7)");
@@ -362,17 +361,20 @@ public class Menu {
 				break;
 				
 			case "5" :
-				System.out.println("Here are the new account requests: ");
-				// take in input for a account approve/deny method
+				
+				BankAccount.viewPendingAccounts(2);
+				
 				break;
 			
 			case "6" :
-				System.out.println("Whose account would you like to cancel?");
-				// take in input for an account cancel method
+				
+				BankAccount.deleteAccount(2);
+				
 				break;
 				
 			case "7" :
 				welcomeMenu();
+				
 				break;
 				
 			default :
@@ -393,10 +395,11 @@ public class Menu {
 			Scanner myObj = new Scanner(System.in);
 			System.out.println("Would you like to:");
 			System.out.println();
-			System.out.println("View new Account Requests (1)");
-			System.out.println("Cancel a Client's Account (2)");
+			System.out.println("View a Client's Account Details (1)");
+			System.out.println("View Existing Bank Accounts / Approve or Deny Pending Accounts (2)");
+			System.out.println("Cancel a Client's Account (3)");
 			System.out.println();
-			System.out.println("Return to Login Menu (3)");
+			System.out.println("Return to Login Menu (4)");
 		    String employeeAccountResult = myObj.nextLine();
 		    
 		    
@@ -408,18 +411,34 @@ public class Menu {
 		 
 		
 		switch (employeeAccountResult) {
-			
+		
 			case "1" : 
-				System.out.println("Here are the new account requests: ");
-				// take in input for a account approve/deny method
-				break;
-			
-			case "2" :
-				System.out.println("Whose account would you like to cancel?");
-				// take in input for an account cancel method
+				
+				Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+				System.out.print("Please enter the username on the account you'd like to view: ");
+
+				String username = myObj.nextLine();
+				
+				BankAccount myBankAccount = BankAccountDAO.accessAccount(username);
+				
+				myBankAccount.viewAccountDetails(username, 3, BankAccountDAO.accessAccount(username).isApproved);
+				
 				break;
 				
+			
+			case "2" : 
+				
+				BankAccount.viewPendingAccounts(3);
+				
+				break;
+			
 			case "3" :
+			
+				BankAccount.deleteAccount(3);
+
+				break;
+				
+			case "4" :
 				welcomeMenu();
 				break;
 				

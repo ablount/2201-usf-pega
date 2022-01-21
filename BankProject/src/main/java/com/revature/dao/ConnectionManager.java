@@ -35,16 +35,6 @@ public class ConnectionManager {
 		
 		return null;
 	}
-	
-	// When the program is stopped, this will trigger and close the connection
-	// You have to use the stop button in your IDE. Similar to finally clause in main()
-	/*@Override
-	public void finalize() {
-		try {
-		//	ConnectionManager.getConnection().close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}*/
+
 }
 

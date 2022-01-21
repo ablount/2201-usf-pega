@@ -1,4 +1,5 @@
 package com.revature.accounts;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.revature.dao.BankAccountDAO;
@@ -254,55 +255,67 @@ public class BankAccount {
 			System.out.println("What is the username on the account to which you'd like to transfer $" + amountToTransfer + "?");
 			String accountToTransfer = myObj.nextLine();
 			
-			if (amountToTransfer <= balance) {
-				balance -= amountToTransfer;
-				BankAccountDAO.updateBalance(username, balance);
-			}
+			if (BankAccountDAO.accessAccount(accountToTransfer).isApproved == true) {
+				
+				if (amountToTransfer <= balance) {
+					balance -= amountToTransfer;
+					BankAccountDAO.updateBalance(username, balance);
+				
+				BankAccountDAO.updateBalance(accountToTransfer, BankAccountDAO.accessAccount(accountToTransfer).balance + amountToTransfer);
+				
+				System.out.println();
+				System.out.println("$" + amountToTransfer + " from " + username + " has been transferred to " + accountToTransfer);
+				System.out.println();
+				System.out.println(username + "'s new balance is: " + balance);
+				System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
+				System.out.println();
+				System.out.println("__________________________________");
+				System.out.println();
+				
+				switch(accountType) {
+				
+					case 1 :
 			
-			BankAccountDAO.updateBalance(accountToTransfer, BankAccountDAO.accessAccount(accountToTransfer).balance + amountToTransfer);
+						Menu.customerMenu(username);
+						break;
+						
+					case 2 :
+						
+						Menu.adminMenu();
+						break;
+						
+					case 3 :
+						
+						Menu.employeeMenu();
+						break;
+						
+					default :
+						
+						Menu.welcomeMenu();
+						break;
+					}
+				
+				} else {
+					
+					System.out.println();
+					System.out.print("This account has not yet been approved.");
+					System.out.println();
+					System.out.println("__________________________________");
+					System.out.println();
+					Menu.welcomeMenu();
+				}
+	
+				
+			} else {
 			
 			System.out.println();
-			System.out.println("$" + amountToTransfer + " from " + username + " has been transferred to " + accountToTransfer);
-			System.out.println();
-			System.out.println(username + "'s new balance is: " + balance);
-			System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
+			System.out.print("This account has not yet been approved.");
 			System.out.println();
 			System.out.println("__________________________________");
 			System.out.println();
+			Menu.welcomeMenu();
 			
-			switch(accountType) {
-			
-			case 1 :
-	
-				Menu.customerMenu(username);
-				break;
-				
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-		
-			}	
-			
-		} else {
-		
-		System.out.println();
-		System.out.print("This account has not yet been approved.");
-		System.out.println();
-		System.out.println("__________________________________");
-		System.out.println();
-		Menu.welcomeMenu();
-		
+			}
 		}
 		
 		return balance;
@@ -343,6 +356,123 @@ public class BankAccount {
 		
 	}
 	
+	public static void viewPendingAccounts(int accountType){
+		
+		System.out.println();
+		System.out.println("Here are the current accounts: ");
+		System.out.println();
+		ArrayList<BankAccount> pendingAccounts = BankAccountDAO.getPendingAccounts();
 
-}
+		for(BankAccount account : pendingAccounts){
+			
+			System.out.println(account.toString());
+		}
+		
+		System.out.println();
+		System.out.println("Which account number would you like to approve or deny?");
+		Scanner s = new Scanner(System.in);
+		int accountID = s.nextInt();
+		
+		approveDenyAccount(accountID, accountType);
+	
+	}
+	
+	public static void approveDenyAccount(int accountID, int accountType) {
+		
+		Scanner s = new Scanner(System.in);
+		System.out.println();
+		System.out.println("Would you like to Approve Account (1) or Deny/Delete Account (2)?");
+		String approveDeny = s.nextLine();
+		
+		switch (approveDeny) {
+		
+			case "1": 
+				
+				BankAccountDAO.approveAccount(accountID);
+				break;
+				
+			case "2":
+				
+				BankAccountDAO.denyAccount(accountID);
+				break;
+				
+			default:
+				
+				System.out.println("Please review your options and try again.");
+				break;
+		}
+		
+		switch(accountType) {
+			
+			case 2 :
+				
+				Menu.adminMenu();
+				break;
+				
+			case 3 :
+				
+				Menu.employeeMenu();
+				break;
+				
+			default :
+				
+				Menu.welcomeMenu();
+				break;
+	
+		}	
+		
+		
+	}
+	
+	public static void deleteAccount(int accountType) {
+		
+		Scanner s = new Scanner(System.in);
+		System.out.println();
+		System.out.println("Which account number would you like to delete?");
+		int accountToDelete = s.nextInt();
+		
+		BankAccountDAO.removeAccount(accountToDelete);
+		
+		switch(accountType) {
+			
+			case 2 :
+				
+				Menu.adminMenu();
+				break;
+				
+			case 3 :
+				
+				Menu.employeeMenu();
+				break;
+				
+			default :
+				
+				Menu.welcomeMenu();
+				break;
+	
+		}	
+		
+	}
+	
+	public String toString() {
+		
+		String approvalStatus = "";
+		
+		if (isApproved == true) {
+			
+			approvalStatus = "Approved";
+			
+		} else {
+			
+			approvalStatus = "Pending";
+		}
+		
+		String result = "Account #" + accountID + ", Current Balance: $" + balance + ", Approval Status: " + approvalStatus;
+		
+		return result;
+			
+		}
+	}
+
+
 
