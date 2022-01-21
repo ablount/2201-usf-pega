@@ -1,5 +1,6 @@
 package com.revature.dao;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,6 +45,80 @@ public class UserAccountDAO {
 			// checks that we're in the db
 			Connection connection = ConnectionManager.getConnection();
 			
+			switch (accountType) {
+			
+			case 1 :
+				// asks to return the key that was generated while adding a 0 to the balance in a new row of the bank account table
+				PreparedStatement otherPreparedStatement = connection.prepareStatement("INSERT INTO bankAccounts(balance, isApproved) VALUES ('0', 'false')", Statement.RETURN_GENERATED_KEYS);
+				
+				//runs the update and names the returned int is the accountID
+				int accountID = otherPreparedStatement.executeUpdate();
+				
+				// makes the above work 
+				ResultSet generatedKeys = otherPreparedStatement.getGeneratedKeys();
+				if (generatedKeys.next())
+				    accountID = generatedKeys.getInt(1);
+				
+				// inserts the user data into the userAccount table
+				PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userAccounts(username, password, accountType, accountID) VALUES (?, ?, ?, ?)");
+				
+				preparedStatement.setString(1, username);
+				preparedStatement.setString(2, password);
+				preparedStatement.setInt(3, accountType);
+				preparedStatement.setInt(4, accountID);
+				
+				preparedStatement.executeUpdate();
+				
+				break;
+			
+			case 2 :
+			
+				// inserts the user data into the userAccount table
+				PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT INTO userAccounts(username, password, accountType) VALUES (?, ?, ?)");
+				
+				preparedStatement2.setString(1, username);
+				preparedStatement2.setString(2, password);
+				preparedStatement2.setInt(3, accountType);
+				
+				preparedStatement2.executeUpdate();
+				
+				break;
+
+			case 3 :
+				
+				// inserts the user data into the userAccount table
+				PreparedStatement preparedStatement3 = connection.prepareStatement("INSERT INTO userAccounts(username, password, accountType) VALUES (?, ?, ?)");
+				
+				preparedStatement3.setString(1, username);
+				preparedStatement3.setString(2, password);
+				preparedStatement3.setInt(3, accountType);
+				
+				preparedStatement3.executeUpdate();
+				
+				break;
+			
+			default:
+				
+				System.out.println("There was an error creating your account. Please try again, thanks!");
+				
+				break;
+
+			}
+			
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
+	public void joinSignUp(String username, String password) {
+
+		try {
+			
+			// checks that we're in the db
+			Connection connection = ConnectionManager.getConnection();
+			
 			// asks to return the key that was generated while adding a 0 to the balance in a new row of the bank account table
 			PreparedStatement otherPreparedStatement = connection.prepareStatement("INSERT INTO bankAccounts(balance) VALUES ('0')", Statement.RETURN_GENERATED_KEYS);
 			
@@ -56,14 +131,12 @@ public class UserAccountDAO {
 			    accountID = generatedKeys.getInt(1);
 			
 			// inserts the user data into the userAccount table
-			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userAccounts(username, password, accountType, accountID) VALUES (?, ?, ?, ?)");
+			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userAccounts(username, password, accountType) VALUES (?, ?, ?)");
 			
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
-			preparedStatement.setInt(3, accountType);
-			preparedStatement.setInt(4, accountID);
+			preparedStatement.setInt(3, 1);
 			
-			// I think this should be different???????????????????????
 			preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -91,9 +164,13 @@ public class UserAccountDAO {
 			//always need to tell it to go to the next to get to the first row after the column headers
 			// tests to make sure that set of info appears in the table in one row
 			if (results.next()) {
+				
 				return true;
+				
 			} else {
-			return false;
+				
+				return false;
+				
 			}
 			
 		} catch (SQLException e) {

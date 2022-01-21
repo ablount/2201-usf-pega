@@ -3,9 +3,7 @@ package com.revature.driver;
 public class Console {
 
 	public static void main(String[] args) {
-		
-		
-		
+				
 		while (true){
 		
 			Menu.welcomeMenu();
@@ -13,6 +11,8 @@ public class Console {
 			System.out.println("__________________________________");
 			System.out.println();
 		}
+		
+
 	}
 
 }

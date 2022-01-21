@@ -175,6 +175,33 @@ public class Menu {
 		int accountType = myObj.nextInt();
 		
 		userDao.signUp(username, password, accountType);
+		
+		switch (accountType) {
+		
+			case 1 : 
+				
+			System.out.println("Thank you for registering for an account.");
+			System.out.println("A bank employee will review your account request, and approve or deny the new account.");
+			break;
+			
+			case 2 :
+				
+			System.out.println("You have registered successfully.");	
+			break;
+			
+			case 3 :
+				
+			System.out.println("You have registered successfully.");	
+			break;
+			
+			default:
+				
+			System.out.println("There was an error registering your account.");
+			System.out.println("Please try again, or contact your local bank branch.");
+			
+		}
+		
+		
 	}
 	
 	public static String customerMenu(String username) {
@@ -191,8 +218,9 @@ public class Menu {
 		System.out.println("Make a Withdrawl (3)");
 		System.out.println("Make a Deposit (4)");
 		System.out.println("Transfer money (5)");
+		System.out.println("Create an account for an additional Acccount Owner (6)");
 		System.out.println();
-		System.out.println("Return to Login Menu (6)");
+		System.out.println("Return to Login Menu (7)");
 	    String customerAccountResult = myObj.nextLine();
 	    
 	    
@@ -209,34 +237,39 @@ public class Menu {
 				
 				case "1" : 
 					
-					myBankAccount.viewAccountDetails(username);
+					myBankAccount.viewAccountDetails(username, 1, BankAccountDAO.accessAccount(username).isApproved);
 	
 					break;
 				
 				case "2" :
 					
-					myBankAccount.checkBalance(username);
+					myBankAccount.checkBalance(username, 1);
 					
 					break;
 					
 				case "3" :
 					
-					myBankAccount.withdraw(username);
+					myBankAccount.withdraw(username, 1);
 					
 					break;
 					
 				case "4" : 
 					
-					myBankAccount.deposit(username);
+					myBankAccount.deposit(username, 1);
 					
 					break;
 					
 				case "5" :
-					myBankAccount.transfer(username);
+					myBankAccount.transfer(username, 1);
 					
 					break;
 					
 				case "6" :
+					myBankAccount.joinAccount(BankAccountDAO.accessAccount(username).accountID);
+					
+					break;
+					
+				case "7" :
 					welcomeMenu();
 					break;
 					
@@ -260,8 +293,8 @@ public class Menu {
 		System.out.println();
 		System.out.println("Check a Client's Balance (1)");
 		System.out.println("Make a Withdrawl from a Client's Account (2)");
-		System.out.println("Make a Deposit from a Client's Account (3)");
-		System.out.println("Transfer money from a Client's Account (4)");
+		System.out.println("Make a Deposit to a Client's Account (3)");
+		System.out.println("Transfer money between Client Accounts (4)");
 		System.out.println();
 		System.out.println("View new Account Requests (5)");
 		System.out.println("Cancel a Client's Account (6)");
@@ -280,22 +313,52 @@ public class Menu {
 		switch (adminAccountResult) {
 			
 			case "1" : 
-				System.out.println("The client's current balance is: ");
+				
+				Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+				System.out.print("Please enter the username on the account you'd like to view: ");
+
+				String username = myObj.nextLine();
+				
+				BankAccount myBankAccount = BankAccountDAO.accessAccount(username);
+				
+				myBankAccount.viewAccountDetails(username, 2, BankAccountDAO.accessAccount(username).isApproved);
+				
 				break;
 				
 			case "2" :
-				System.out.println("How much money would the client like to withdraw?");
-				// take in input for a withdraw method
+				
+				Scanner myObj2 = new Scanner(System.in);  // Create a Scanner object
+				System.out.print("Please enter the username on the account you'd like to withdraw money from: ");
+				String username2 = myObj2.nextLine();
+				
+				BankAccount myBankAccount2 = BankAccountDAO.accessAccount(username2);
+				
+				myBankAccount2.withdraw(username2, 2);	
+				
 				break;
 				
 			case "3" : 
-				System.out.println("How much money would the client like to deposit?");
-				// take in input for a deposit method
+				
+				Scanner myObj3 = new Scanner(System.in);  // Create a Scanner object
+				System.out.print("Please enter the username on the account you'd like to deposit money into: ");
+				String username3 = myObj3.nextLine();
+				
+				BankAccount myBankAccount3 = BankAccountDAO.accessAccount(username3);
+				
+				myBankAccount3.deposit(username3, 2);	
+				
 				break;
 				
+				
 			case "4" :
-				System.out.println("How much money would the client like to transer?");
-				// take in input for a transfer method
+				Scanner myObj4 = new Scanner(System.in);  // Create a Scanner object
+				System.out.print("Please enter the username on the account you'd like to transfer money from: ");
+				String username4 = myObj4.nextLine();
+				
+				BankAccount myBankAccount4 = BankAccountDAO.accessAccount(username4);
+				
+				myBankAccount4.transfer(username4, 2);	
+				
 				break;
 				
 			case "5" :

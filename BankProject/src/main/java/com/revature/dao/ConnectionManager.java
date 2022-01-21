@@ -12,13 +12,17 @@ public class ConnectionManager {
 	static String password = "Ii2bMjRIFAeJnLWYWU1o_vuuZ5YM7GOG";
 	
 	public static Connection getConnection() {
+		
 		try {
-			if (connection == null) {
+			
+			if (connection == null || connection.isClosed()) {
 			
 				Class.forName("org.postgresql.Driver");
 			
 				connection = DriverManager.getConnection(connectionString, username, password);
+				
 				}
+			
 			return connection;
 			
 		} catch (ClassNotFoundException e) {
@@ -34,13 +38,13 @@ public class ConnectionManager {
 	
 	// When the program is stopped, this will trigger and close the connection
 	// You have to use the stop button in your IDE. Similar to finally clause in main()
-	@Override
+	/*@Override
 	public void finalize() {
 		try {
-			ConnectionManager.getConnection().close();
+		//	ConnectionManager.getConnection().close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
 
