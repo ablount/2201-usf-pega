@@ -6,7 +6,11 @@ import com.revature.dao.BankAccountDAO;
 import com.revature.dao.UserAccountDAO;
 import com.revature.driver.Menu;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class BankAccount {
+	
 
 	public int accountID;
 	public int balance;
@@ -17,6 +21,8 @@ public class BankAccount {
 		this.balance = balance;
 		this.isApproved = isApproved;
 	}
+	
+	private static final Logger logger = LogManager.getLogger(BankAccount.class);
 	
 
 	public int viewAccountDetails(String username, int accountType, boolean isApproved) {
@@ -34,6 +40,8 @@ public class BankAccount {
 			System.out.print("This account has not yet been approved.");
 		}
 		
+		logger.debug("A client just checked their account status.");
+
 		System.out.println();
 		System.out.println();
 		System.out.println("__________________________________");
