@@ -20,15 +20,24 @@ public class BankAccountController {
 		this.connection = connection;
 		bankDAO = new BankAccountDAO();
 		
+		// get is just for getting info, the URL is whatever you want it to be, anything in curly braces is what you're calling
+		//	parameter the that will be taken from the URL that's typed into the browser
+		// the light blue is whatever you want to call your method you'll build in your DAO 
 		app.get("/bankAccounts/{username}", getAccountDetails);
 		app.get("/bankAccounts/{account}", getBankAccountDetails);
 	}
 
 	
 	public Handler getAccountDetails = ctx -> {
+		// getAccountDetails is what I'm calling this method/what I'll call it in my DAO
 		
 		try {
 		BankAccount controllerUser = bankDAO.getAccountDetails(ctx.pathParam("username"));
+		// the dark blue is what I want to show in the browser (I want to show the details of a bank account)
+		// the yellow is a random name I chose
+		// light blue is the instance of the DAO I named at the beginning of this class
+		// green is the name of the method I'm going to make in my DAO
+		// "username" is the parameter I specified above that will come from the URL someone types in their browser
 		
 		ctx.json(controllerUser);
 		

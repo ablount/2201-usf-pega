@@ -65,10 +65,11 @@ public class UserAccountController {
 		ctx.json(controllerUser);
 		
 			ctx.status(204);
+			
 	
 	};
 	
-public Handler getAccountTypes = ctx -> {
+	public Handler getAccountTypes = ctx -> {
 		
 		try {
 			

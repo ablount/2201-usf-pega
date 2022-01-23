@@ -1,6 +1,7 @@
 package com.revature.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
@@ -9,11 +10,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import com.revature.accounts.BankAccount;
 import com.revature.accounts.UserAccount;
 import com.revature.dao.BankAccountDAO;
+import com.revature.dao.UserAccountDAO;
 
 public class AccountTests {
 	
@@ -27,7 +31,7 @@ public class AccountTests {
 		UserAccount userAccount4 = new UserAccount("grayson", "12345", "2", 4, 4);
 		UserAccount userAccount5 = new UserAccount("liz", "123456", "3", 5, 5);
 
-		
+
 		@Test
 		public void testOne() {
 			
@@ -115,46 +119,82 @@ public class AccountTests {
 		@Test
 		public void testFive() {
 			
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			boolean test = userAccountDAO.isUsernameTaken("testUser");
 			
+			assertTrue(test == true);
 			
 		}
 		
 		@Test
 		public void testSix() {
+			
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.deleteUserAccount("testUser");
+			
+			boolean test = userAccountDAO.isUsernameTaken("testUser");
+			
+			assertFalse(test == true);
+		
 		}
 		
 		@Test
 		public void testSeven() {
+			
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.signUp("testUser", "testPassword", 1);
+		
+			BankAccountDAO.updateBalance("testUser", 5000);
+			
+			assertTrue(BankAccountDAO.accessAccount("testUser").balance == 5000);
+	
+			
 		}
 		
 		@Test
 		public void testEight() {
+			
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.signUp("testUser", "testPassword", 1);
+			
+			BankAccountDAO.updateAccountID("testUser", 1);
+			
+			assertTrue(BankAccountDAO.accessAccount("testUser").accountID == 1);
 		}
 		
 		@Test
 		public void testNine() {
+
+			
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.signUp("testUser", "testPassword", 1);
+			
+			BankAccountDAO.approveAccount(BankAccountDAO.accessAccount("testUser").accountID);
+			
+			assertTrue(BankAccountDAO.accessAccount("testUser").isApproved == true);
+
 		}
 		
 		@Test
 		public void testTen() {
 			
-			//assertThrows(ArithmeticException.class, () -> machine.divide(1, 0));
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.signUp("testUser", "testPassword", 1);
+			
+			BankAccountDAO.denyAccount(BankAccountDAO.accessAccount("testUser").accountID);
+			
+			boolean test = userAccountDAO.isUsernameTaken("testUser");
 
+			assertFalse(test == true);
 		}
+
 		
-		@BeforeEach
-		public void setupEachTest() {
+		@AfterEach
+		public void cleanUp() {
 			
-			testAccount1 = new BankAccount(1, 10000, true);
-			testAccount2 = new BankAccount(2, 20000, true);
-			testAccount3 = new BankAccount(3, 0, false);
+			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.deleteUserAccount("testUser");
 			
-			userAccount1 = new UserAccount("allison", "1234", "1", 1, 1);
-			userAccount2 = new UserAccount("rozanne", "123", "1", 2, 2);
-			userAccount3 = new UserAccount("brian", "12", "1", 3, 3);
-			userAccount4 = new UserAccount("grayson", "12345", "2", 4, 4);
-			userAccount5 = new UserAccount("liz", "123456", "3", 5, 5);
 			
-		}
-		
+		}		
 }

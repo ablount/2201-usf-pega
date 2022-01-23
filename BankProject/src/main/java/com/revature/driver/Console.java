@@ -16,6 +16,7 @@ public class Console {
 		Connection connection = ConnectionManager.getConnection();
 		UserAccountController controller = new UserAccountController(app, connection);
 		BankAccountController controller2 = new BankAccountController(app, connection);
+		// ^^ you need one of these controllers for each separate controller class you make
 
 				
 		while (true){

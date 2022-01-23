@@ -246,7 +246,9 @@ public class BankAccountDAO {
 
 	
 	public BankAccount getAccountDetails(String username) {
-		
+		// I want to return a bankaccount object so I have all the details from the bank account (I told my controller it
+		// was getting a BankAcount), same name of the method (getAccountDetails) I told my controller to call, 
+		// and that  username parameter that I'll get from the last bit URL that's typed in
 		try {
 			
 			// checks that we're in the db
@@ -274,7 +276,8 @@ public class BankAccountDAO {
 			
 			//always need to tell it to go to the next to get to the first row after the column headers
 			while (results2.next()) {
-
+				
+				// pulls info from my database based on the column names, and makes them java variables
 				int accountID = results2.getInt("account");
 				int balance = results2.getInt("balance");
 				boolean isApproved = results2.getBoolean("isApproved");
