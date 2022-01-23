@@ -25,8 +25,9 @@ public class BankAccountController {
 		// the light blue is whatever you want to call your method you'll build in your DAO 
 		app.get("/bankAccounts/{username}", getAccountDetails);
 		app.get("/bankAccounts/{account}", getBankAccountDetails);
+		app.put("/bankAccounts/deposit/{username}/{deposit}", onlineDeposit);
+		app.put("/bankAccounts/withdraw/{username}/{withdraw}", onlineWithdraw);
 	}
-
 	
 	public Handler getAccountDetails = ctx -> {
 		// getAccountDetails is what I'm calling this method/what I'll call it in my DAO
@@ -66,6 +67,30 @@ public class BankAccountController {
 			e.printStackTrace();
 
 		}
+	};
+	
+	public Handler onlineDeposit = ctx -> {
+		
+		int deposit = 0;
+		
+		boolean controllerUser = bankDAO.onlineDeposit(ctx.pathParam("username"), (deposit = Integer.parseInt(ctx.pathParam("deposit"))));
+		
+		ctx.json(controllerUser);
+			
+			ctx.status(204);
+		
+	};
+	
+	public Handler onlineWithdraw = ctx -> {
+		
+		int withdraw = 0;
+		
+		boolean controllerUser = bankDAO.onlineWithdraw(ctx.pathParam("username"), (withdraw = Integer.parseInt(ctx.pathParam("withdraw"))));
+		
+		ctx.json(controllerUser);
+			
+			ctx.status(204);
+		
 	};
 }
 

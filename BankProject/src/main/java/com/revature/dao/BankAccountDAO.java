@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.revature.accounts.BankAccount;
 import com.revature.accounts.UserAccount;
+import com.revature.driver.Menu;
 
 public class BankAccountDAO {
 
@@ -294,4 +296,117 @@ public class BankAccountDAO {
 		return null;
 	
 	}
+	
+	public boolean onlineDeposit(String username, int deposit) {
+		
+		try{
+			
+			int balance = 0;
+			
+			Connection connection = ConnectionManager.getConnection();
+			// asks to select a row based on the username
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM userAccounts WHERE username = ?");
+			preparedStatement.setString(1, username);
+			
+			// calls that resultset results
+			ResultSet results = preparedStatement.executeQuery();
+			
+			//always need to tell it to go to the next to get to the first row after the column headers
+			results.next();
+			
+			// calls that int in the db named accountID accountIDDB
+			int accountIDDB = results.getInt("accountID");
+            
+			// asks to select a row in the bankAccounts table based on the accountIDDB pulled above
+			PreparedStatement otherPreparedStatement = connection.prepareStatement("SELECT * FROM bankAccounts WHERE account = ?");
+			otherPreparedStatement.setInt(1, accountIDDB);
+			
+			// calls that resultset results2 
+			ResultSet results2 = otherPreparedStatement.executeQuery();		
+			
+			while(results2.next()) {
+				
+				balance = results2.getInt("balance");
+				
+			}
+			
+			if (deposit > 0) {
+				
+				balance += deposit;
+				
+				PreparedStatement preparedStatement2 = connection.prepareStatement("UPDATE bankAccounts SET balance = ? WHERE account = ?");
+				
+				preparedStatement2.setInt(1, balance);
+				preparedStatement2.setInt(2, accountIDDB);
+	
+				preparedStatement2.executeUpdate();
+
+			}
+			
+		} catch (SQLException ex) {
+		
+		System.err.println(ex.getMessage());
+		
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean onlineWithdraw(String username, int withdraw) {
+		
+		try{
+			
+			int balance = 0;
+			
+			Connection connection = ConnectionManager.getConnection();
+			// asks to select a row based on the username
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM userAccounts WHERE username = ?");
+			preparedStatement.setString(1, username);
+			
+			// calls that resultset results
+			ResultSet results = preparedStatement.executeQuery();
+			
+			//always need to tell it to go to the next to get to the first row after the column headers
+			results.next();
+			
+			// calls that int in the db named accountID accountIDDB
+			int accountIDDB = results.getInt("accountID");
+            
+			// asks to select a row in the bankAccounts table based on the accountIDDB pulled above
+			PreparedStatement otherPreparedStatement = connection.prepareStatement("SELECT * FROM bankAccounts WHERE account = ?");
+			otherPreparedStatement.setInt(1, accountIDDB);
+			
+			// calls that resultset results2 
+			ResultSet results2 = otherPreparedStatement.executeQuery();		
+			
+			while(results2.next()) {
+				
+				balance = results2.getInt("balance");
+				
+			}
+			
+			if (withdraw > 0 && withdraw <= balance) {
+			
+				balance -= withdraw;
+			
+				PreparedStatement preparedStatement2 = connection.prepareStatement("UPDATE bankAccounts SET balance = ? WHERE account = ?");
+				
+				preparedStatement2.setInt(1, balance);
+				preparedStatement2.setInt(2, accountIDDB);
+	
+				preparedStatement2.executeUpdate();
+				
+			}
+				
+		} catch (SQLException ex) {
+		
+			System.err.println(ex.getMessage());
+		
+		}
+		
+		return false;
+		
+	}
 }
+
