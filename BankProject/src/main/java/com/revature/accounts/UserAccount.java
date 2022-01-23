@@ -2,13 +2,13 @@ package com.revature.accounts;
 
 public class UserAccount {
 	
-	private String username;
+	public String username;
 	private String password;
-	String accountType;
+	public String accountType;
 	int userID;
-	int accountID;
+	public int accountID;
 	
-	UserAccount(String username, String password, String accountType, int userID, int accountID){
+	public UserAccount(String username, String password, String accountType, int userID, int accountID){
 		
 		this.username = username;
 		this.password = password;
@@ -18,13 +18,17 @@ public class UserAccount {
 
 	}
 	
-	public String getUsername() {
-		
-		return username;
 	
+	public String getPassword() {
+		
+		return password;
+
 	}
 
-	
+	public UserAccount() {
+		
+	}
+
 }
 
 

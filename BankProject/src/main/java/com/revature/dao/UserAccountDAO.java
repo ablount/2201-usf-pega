@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.revature.accounts.BankAccount;
+import com.revature.accounts.UserAccount;
 
 public class UserAccountDAO {
 
@@ -181,4 +182,140 @@ public class UserAccountDAO {
 		return true;
 	}
 	
+	public boolean createUserAccount(UserAccount userAccount) {
+		
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			
+			PreparedStatement otherPreparedStatement = connection.prepareStatement("INSERT INTO bankAccounts(balance, isApproved) VALUES ('0', 'false')", Statement.RETURN_GENERATED_KEYS);
+			
+			int accountID = otherPreparedStatement.executeUpdate();
+			
+			ResultSet generatedKeys = otherPreparedStatement.getGeneratedKeys();
+			if (generatedKeys.next())
+			    accountID = generatedKeys.getInt(1);
+			
+			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userAccounts(username, password, accountType, accountID) VALUES (?, ?, ?, ?)");
+			
+			preparedStatement.setString(1, userAccount.username);
+			preparedStatement.setString(2, userAccount.getPassword());
+			preparedStatement.setString(3, userAccount.accountType);
+			preparedStatement.setInt(4, accountID);
+			
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+	}
+	
+	public UserAccount getUserByUsername(String username) {
+
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM userAccounts WHERE username = ?");
+			
+			preparedStatement.setString(1, username);
+			
+			ResultSet userList = preparedStatement.executeQuery();
+			
+			while (userList.next()) {
+				
+				String username1 = userList.getString("username");
+				String password = userList.getString("password");
+				String accountType = userList.getString("accountType");
+				int userID = userList.getInt("userID");
+				int accountID = userList.getInt("accountID");
+
+				return new UserAccount(username1, password, accountType, userID, accountID);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
+	public boolean updateUserAccountType(String username, String accountType) {
+		
+		try{
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE userAccounts SET accountType = ? WHERE username = ?");
+			
+			preparedStatement.setString(1, accountType);
+			preparedStatement.setString(2, username);
+
+			preparedStatement.executeUpdate();
+				
+		} catch (SQLException ex) {
+		
+		System.err.println(ex.getMessage());
+		
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean deleteUserAccount(String username) {
+		
+		try{
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM userAccounts WHERE username = ?");
+			
+			preparedStatement.setString(1, username);
+
+			preparedStatement.executeUpdate();
+				
+		} catch (SQLException ex) {
+		
+		System.err.println(ex.getMessage());
+		
+		}
+		
+		return false;
+	}
+	
+	public int getAccountTypes(int accountType) {
+		
+		try {
+			
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(accountType) FROM userAccounts WHERE accountType = ?");
+			
+			preparedStatement.setInt(1, accountType);
+			
+			ResultSet results = preparedStatement.executeQuery();
+			
+			while (results.next()) {
+	
+				int count = results.getInt("count");
+				
+				return count;
+			
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+	
+	return -1;
+	
+	}
 }
+
+

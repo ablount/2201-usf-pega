@@ -1,1 +1,10 @@
 2022-01-22 10:36:16.596 [main] DEBUG com.revature.accounts.BankAccount - A client just checked their account status.
+2022-01-22 12:16:38.282 [main] DEBUG com.revature.accounts.BankAccount - A client checked their account status.
+2022-01-22 12:16:41.472 [main] DEBUG com.revature.accounts.BankAccount - A client checked their balance.
+2022-01-22 12:16:54.633 [main] DEBUG com.revature.accounts.BankAccount - A client made a withdrawal.
+2022-01-22 12:17:00.593 [main] DEBUG com.revature.accounts.BankAccount - A client made a desposit.
+2022-01-22 12:18:07.285 [main] DEBUG com.revature.accounts.BankAccount - A client made a transfer.
+2022-01-22 12:18:26.644 [main] DEBUG com.revature.accounts.BankAccount - A second owner was added to the account.
+2022-01-22 12:18:49.441 [main] DEBUG com.revature.accounts.BankAccount - A client checked their account status.
+2022-01-22 12:19:31.334 [main] DEBUG com.revature.accounts.BankAccount - A(n) Bank Admin approved Account #11.
+2022-01-22 12:20:05.403 [main] DEBUG com.revature.accounts.BankAccount - A(n) Employee deleted Account #11.

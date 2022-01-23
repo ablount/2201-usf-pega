@@ -264,7 +264,7 @@ public class Menu {
 					break;
 					
 				case "6" :
-					myBankAccount.joinAccount(BankAccountDAO.accessAccount(username).accountID);
+					myBankAccount.joinAccount(username, BankAccountDAO.accessAccount(username).accountID);
 					
 					break;
 					

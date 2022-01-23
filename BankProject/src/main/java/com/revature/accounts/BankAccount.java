@@ -40,10 +40,9 @@ public class BankAccount {
 			System.out.print("This account has not yet been approved.");
 		}
 		
-		logger.debug("A client just checked their account status.");
-
 		System.out.println();
 		System.out.println();
+		logger.debug(username + " checked the account status for their Account #" + accountID + ".");
 		System.out.println("__________________________________");
 		System.out.println();
 		
@@ -82,6 +81,7 @@ public class BankAccount {
 			System.out.println();
 			System.out.println("The current balance is: " + balance);
 			System.out.println();
+			logger.debug(username + " checked their balance.");
 			System.out.println("__________________________________");
 			System.out.println();
 			
@@ -140,6 +140,7 @@ public class BankAccount {
 				BankAccountDAO.updateBalance(username, balance);
 				
 				System.out.println();
+				logger.debug(username + " made a withdrawal.");
 				System.out.println("__________________________________");
 				System.out.println();
 				
@@ -148,6 +149,7 @@ public class BankAccount {
 				System.out.println();
 				System.out.println("Account does not have sufficient funds. Please check your current balance, and try again. Thanks!");
 				System.out.println();	
+				logger.debug(username + " unsuccessfully tried to make a withdrawal.");
 				System.out.println("__________________________________");
 				System.out.println();
 			}
@@ -181,6 +183,7 @@ public class BankAccount {
 		System.out.println();
 		System.out.print("This account has not yet been approved.");
 		System.out.println();
+		logger.debug(username + " tried to make a withdrawal, but their account is not yet approved.");
 		System.out.println("__________________________________");
 		System.out.println();
 		Menu.welcomeMenu();
@@ -208,6 +211,7 @@ public class BankAccount {
 			BankAccountDAO.updateBalance(username, balance);
 			
 			System.out.println();
+			logger.debug(username + " made a deposit of $" + amountToDeposit + ".");
 			System.out.println("__________________________________");
 			System.out.println();
 			
@@ -240,6 +244,7 @@ public class BankAccount {
 		System.out.println();
 		System.out.print("This account has not yet been approved.");			
 		System.out.println();
+		logger.debug(username + " tried to make a deposit, but their account is not yet approved.");
 		System.out.println("__________________________________");
 		System.out.println();
 		Menu.welcomeMenu();
@@ -277,6 +282,7 @@ public class BankAccount {
 				System.out.println(username + "'s new balance is: " + balance);
 				System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
 				System.out.println();
+				logger.debug(username + " made a transfer of $" + amountToTransfer + " to " + accountToTransfer + "'s account.");
 				System.out.println("__________________________________");
 				System.out.println();
 				
@@ -308,6 +314,7 @@ public class BankAccount {
 					System.out.println();
 					System.out.print("This account has not yet been approved.");
 					System.out.println();
+					logger.debug(username + " tried to make a transfer, but the account they tried to transfer to is not yet approved.");
 					System.out.println("__________________________________");
 					System.out.println();
 					Menu.welcomeMenu();
@@ -319,6 +326,7 @@ public class BankAccount {
 			System.out.println();
 			System.out.print("This account has not yet been approved.");
 			System.out.println();
+			logger.debug(username + " tried to make a transfer, but their account is not yet approved.");
 			System.out.println("__________________________________");
 			System.out.println();
 			Menu.welcomeMenu();
@@ -331,7 +339,7 @@ public class BankAccount {
 	}
 	
 	
-	public void joinAccount(int accountID) {
+	public void joinAccount(String username, int accountID) {
 		
 		UserAccountDAO userDao = new UserAccountDAO();
 		
@@ -349,7 +357,8 @@ public class BankAccount {
 			System.out.println("That username already exists.");
 			System.out.println("Please try again, or contact the bank for further assistance. Thanks!");
 			System.out.println();
-			
+			logger.debug(username + " tried to make a joint account, but the second account already exists.");
+
 		
 		} else {
 
@@ -359,9 +368,39 @@ public class BankAccount {
 			
 			System.out.println();
 			System.out.println(joinUsername + " has been successfully added as an additional owner of Account #" + accountID + "!");
-		
+			System.out.println();
+			logger.debug(joinUsername + " was added to " + username + "'s account - Account #" + accountID + ".");
+
 		}
+
+		System.out.println();
+		System.out.println("Would you like to:");
+		System.out.println();
+		System.out.println("Return to " + username + "'s Customer Portal (1)");
+		System.out.println("View " + joinUsername + "'s Customer Portal (2)");
+		String accountReturn = joinAccount.nextLine();
 		
+		switch(accountReturn) {
+		
+		case "1" :
+
+			Menu.customerMenu(username);
+			break;
+			
+		case "2" :
+			
+			Menu.customerMenu(joinUsername);
+			break;
+			
+
+		default :
+			
+			System.out.println("Your response was not recognized, please feel free to log in again.");
+			System.out.println();
+			Menu.welcomeMenu();
+			break;
+		}
+
 	}
 	
 	public static void viewPendingAccounts(int accountType){
@@ -387,6 +426,18 @@ public class BankAccount {
 	
 	public static void approveDenyAccount(int accountID, int accountType) {
 		
+		String employeeType = "";
+		
+		if (accountType == 2) {
+			
+			employeeType = "Bank Admin";
+			
+		} else if (accountType == 3) {
+			
+			employeeType = "Employee";
+		
+		}
+		
 		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Would you like to Approve Account (1) or Deny/Delete Account (2)?");
@@ -397,11 +448,15 @@ public class BankAccount {
 			case "1": 
 				
 				BankAccountDAO.approveAccount(accountID);
+				logger.debug("A(n) " + employeeType + " approved Account #" + accountID + ".");
+
 				break;
 				
 			case "2":
 				
 				BankAccountDAO.denyAccount(accountID);
+				logger.debug("A(n) " + employeeType + " denied Account #" + accountID + ".");
+
 				break;
 				
 			default:
@@ -434,12 +489,27 @@ public class BankAccount {
 	
 	public static void deleteAccount(int accountType) {
 		
+		String employeeType = "";
+		
+		if (accountType == 2) {
+			
+			employeeType = "Bank Admin";
+			
+		} else if (accountType == 3) {
+			
+			employeeType = "Employee";
+		
+		}
+		
 		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Which account number would you like to delete?");
 		int accountToDelete = s.nextInt();
 		
 		BankAccountDAO.removeAccount(accountToDelete);
+		
+		logger.debug("A(n) " + employeeType + " deleted Account #" + accountToDelete + ".");
+
 		
 		switch(accountType) {
 			
@@ -480,6 +550,11 @@ public class BankAccount {
 		return result;
 			
 		}
+	
+	public BankAccount() {
+			
+		}
+	
 	}
 
 
