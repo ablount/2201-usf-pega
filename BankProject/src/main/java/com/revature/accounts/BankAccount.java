@@ -91,7 +91,7 @@ public class BankAccount {
 			System.out.println("How much would you like to withdraw?");
 			int amountToWithdraw = myObj.nextInt();
 			
-			if (amountToWithdraw <= balance) {
+			if (amountToWithdraw <= balance && amountToWithdraw > 0) {
 				balance -= amountToWithdraw;
 				System.out.println("The new balance is: " + balance);
 				BankAccountDAO.updateBalance(username, balance);
@@ -104,7 +104,8 @@ public class BankAccount {
 			} else {
 				
 				System.out.println();
-				System.out.println("Account does not have sufficient funds. Please check your current balance, and try again. Thanks!");
+				System.out.println("Account does not have sufficient funds or the withdrawal amount was entered as a negative.");
+				System.out.println("Please check your current balance, and/or try again without entering a negative amount. Thanks!");
 				System.out.println();	
 				logger.debug(whoChecked(accountType) + " unsuccessfully tried to make a withdrawal from " + username + "'s account.");
 				System.out.println("__________________________________");
@@ -139,19 +140,32 @@ public class BankAccount {
 			System.out.println("How much would you like to deposit?");
 			int amountToDeposit = myObj.nextInt();
 			
-			balance += amountToDeposit;
-			
-			System.out.println();
-			System.out.println("Your new balance is: " + balance);
-			
-			BankAccountDAO.updateBalance(username, balance);
-			
-			System.out.println();
-			logger.debug(whoChecked(accountType) + " made a deposit of $" + amountToDeposit + " into " + username + "'s account.");
-			System.out.println("__________________________________");
-			System.out.println();
-			
-			menuSwitch(accountType, username);
+			if (amountToDeposit > 0) {
+				
+				balance += amountToDeposit;
+				
+				System.out.println();
+				System.out.println("The new balance is: " + balance);
+				
+				BankAccountDAO.updateBalance(username, balance);
+				
+				System.out.println();
+				logger.debug(whoChecked(accountType) + " made a deposit of $" + amountToDeposit + " into " + username + "'s account.");
+				System.out.println("__________________________________");
+				System.out.println();
+				
+				menuSwitch(accountType, username);
+				
+			} else {
+				
+				System.out.println();
+				System.out.print("The amount cannot be negavite, please try again.");
+				System.out.println();
+				logger.debug(whoChecked(accountType) + " tried to make a deposit to " + username + "'s account, but the amount was negative.");
+				System.out.println("__________________________________");
+				System.out.println();
+				menuSwitch(accountType, username);
+			}
 			
 		} else {
 		
@@ -180,28 +194,30 @@ public class BankAccount {
 			System.out.println("How much would you like to transfer?");
 			int amountToTransfer = myObj.nextInt();
 			myObj.nextLine();
-			System.out.println("What is the username on the account to which you'd like to transfer $" + amountToTransfer + "?");
-			String accountToTransfer = myObj.nextLine();
 			
-			if (BankAccountDAO.accessAccount(accountToTransfer).isApproved == true) {
+			if (amountToTransfer <= balance && amountToTransfer > 0) {
 				
-				if (amountToTransfer <= balance) {
+				System.out.println("What is the username on the account to which you'd like to transfer $" + amountToTransfer + "?");
+				String accountToTransfer = myObj.nextLine();
+				
+				if (BankAccountDAO.accessAccount(accountToTransfer).isApproved == true) {
+					
 					balance -= amountToTransfer;
 					BankAccountDAO.updateBalance(username, balance);
 				
-				BankAccountDAO.updateBalance(accountToTransfer, BankAccountDAO.accessAccount(accountToTransfer).balance + amountToTransfer);
+					BankAccountDAO.updateBalance(accountToTransfer, BankAccountDAO.accessAccount(accountToTransfer).balance + amountToTransfer);
 				
-				System.out.println();
-				System.out.println("$" + amountToTransfer + " from " + username + " has been transferred to " + accountToTransfer);
-				System.out.println();
-				System.out.println(username + "'s new balance is: " + balance);
-				System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
-				System.out.println();
-				logger.debug(whoChecked(accountType) + " made a transfer of $" + amountToTransfer + " from " + username + "'s account to " + accountToTransfer + "'s account.");
-				System.out.println("__________________________________");
-				System.out.println();
-				
-				menuSwitch(accountType, username);
+					System.out.println();
+					System.out.println("$" + amountToTransfer + " from " + username + " has been transferred to " + accountToTransfer);
+					System.out.println();
+					System.out.println(username + "'s new balance is: " + balance);
+					System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
+					System.out.println();
+					logger.debug(whoChecked(accountType) + " made a transfer of $" + amountToTransfer + " from " + username + "'s account to " + accountToTransfer + "'s account.");
+					System.out.println("__________________________________");
+					System.out.println();
+					
+					menuSwitch(accountType, username);
 				
 				} else {
 					
@@ -214,7 +230,18 @@ public class BankAccount {
 					menuSwitch(accountType, username);
 					
 				}
-	
+				
+			} else {
+					
+				System.out.println();
+				System.out.print("The account does not have sufficient funds, or the amount entered was negative, please try again.");
+				System.out.println();
+				logger.debug(whoChecked(accountType) + " tried to make a transfer from " + username + "'s account, but the amount was negative or more than the current balance.");
+				System.out.println("__________________________________");
+				System.out.println();
+				menuSwitch(accountType, username);
+					
+				}
 				
 			} else {
 			
@@ -228,7 +255,6 @@ public class BankAccount {
 				menuSwitch(accountType, username);
 			
 			}
-		}
 		
 		return balance;
 		
@@ -313,10 +339,19 @@ public class BankAccount {
 		
 		System.out.println();
 		System.out.println("Which account number would you like to approve or deny?");
+		System.out.println("Return to Portal (0)");
 		Scanner s = new Scanner(System.in);
 		int accountID = s.nextInt();
 		
-		approveDenyAccount(accountID, accountType);
+		if (accountID == 0) {
+		
+			menuSwitch2(accountType);
+			
+		} else {
+		 	
+			approveDenyAccount(accountID, accountType);
+		
+		}
 	
 	}
 	
@@ -337,28 +372,37 @@ public class BankAccount {
 		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Would you like to Approve Account (1) or Deny/Delete Account (2)?");
+		System.out.println("Return to Portal (0)");
 		String approveDeny = s.nextLine();
 		
-		switch (approveDeny) {
-		
-			case "1": 
-				
-				BankAccountDAO.approveAccount(accountID);
-				logger.debug("A(n) " + employeeType + " approved Account #" + accountID + ".");
-
-				break;
-				
-			case "2":
-				
-				BankAccountDAO.denyAccount(accountID);
-				logger.debug("A(n) " + employeeType + " denied Account #" + accountID + ".");
-
-				break;
-				
-			default:
-				
-				System.out.println("Please review your options and try again.");
-				break;
+		if (approveDeny == "0") {
+			
+			menuSwitch2(accountType);
+			
+		} else {
+			
+			switch (approveDeny) {
+			
+				case "1": 
+					
+					BankAccountDAO.approveAccount(accountID);
+					logger.debug("A(n) " + employeeType + " approved Account #" + accountID + ".");
+	
+					break;
+					
+				case "2":
+					
+					BankAccountDAO.denyAccount(accountID);
+					logger.debug("A(n) " + employeeType + " denied Account #" + accountID + ".");
+	
+					break;
+					
+				default:
+					
+					System.out.println("Please review your options and try again.");
+					break;
+			}
+			
 		}
 		
 		menuSwitch2(accountType);
@@ -384,7 +428,7 @@ public class BankAccount {
 		System.out.println();
 		ArrayList<BankAccount> pendingAccounts = BankAccountDAO.getPendingAccounts();
 
-		for(BankAccount account : pendingAccounts){
+		for (BankAccount account : pendingAccounts){
 			
 			System.out.println(account.toString());
 		}
@@ -392,12 +436,20 @@ public class BankAccount {
 		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Which account number would you like to delete?");
+		System.out.println("Return to Portal (0)");
 		int accountToDelete = s.nextInt();
 		
-		BankAccountDAO.removeAccount(accountToDelete);
+		if (accountToDelete == 0) {
+			
+			menuSwitch2(accountType);
+			
+		} else {
 		
-		logger.debug("A(n) " + employeeType + " deleted Account #" + accountToDelete + ".");
+			BankAccountDAO.removeAccount(accountToDelete);
+		
+			logger.debug("A(n) " + employeeType + " deleted Account #" + accountToDelete + ".");
 
+		}
 		
 		menuSwitch2(accountType);
 		
