@@ -11,16 +11,16 @@ public class Menu {
 	
 	public static String welcomeMenu() {
 	
-	System.out.println("Welcome to Bank of Allison!");
-	System.out.println("How can we help you today?");
-	System.out.println();
-	
-	Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-    
-	System.out.println("Would you like to Login (1) or Register (2)");
-    String welcomeResult = myObj.nextLine();  // Read user input
-    
-    return logIn(welcomeResult);
+		System.out.println("Welcome to Bank of Allison!");
+		System.out.println("How can we help you today?");
+		System.out.println();
+		
+		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+	    
+		System.out.println("Would you like to Login (1) or Register (2)");
+	    String welcomeResult = myObj.nextLine();  // Read user input
+	    
+	    return logIn(welcomeResult);
     		
  
 	}

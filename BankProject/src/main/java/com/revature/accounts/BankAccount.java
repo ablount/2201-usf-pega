@@ -42,33 +42,12 @@ public class BankAccount {
 		
 		System.out.println();
 		System.out.println();
-		logger.debug(username + " checked the account status for their Account #" + accountID + ".");
+		
+		logger.debug(whoChecked(accountType) + " checked the account status for " + username + "'s Account #" + accountID + ".");
 		System.out.println("__________________________________");
 		System.out.println();
 		
-		switch(accountType) {
-			
-			case 1 :
-	
-				Menu.customerMenu(username);
-				break;
-				
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-		
-		}
+		menuSwitch(accountType, username);
 		
 		return accountID;
 	}
@@ -81,34 +60,11 @@ public class BankAccount {
 			System.out.println();
 			System.out.println("The current balance is: " + balance);
 			System.out.println();
-			logger.debug(username + " checked their balance.");
+			logger.debug(whoChecked(accountType) + " checked " + username + "'s balance.");
 			System.out.println("__________________________________");
 			System.out.println();
 			
-			switch(accountType) {
-			
-			case 1 :
-	
-				Menu.customerMenu(username);
-				break;
-				
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-		
-			}
-		
+			menuSwitch(accountType, username);
 		
 		} else {
 			
@@ -117,7 +73,8 @@ public class BankAccount {
 			System.out.println();
 			System.out.println("__________________________________");
 			System.out.println();
-			Menu.welcomeMenu();
+			menuSwitch(accountType, username);
+			
 		}
 		
 		return balance; 
@@ -140,7 +97,7 @@ public class BankAccount {
 				BankAccountDAO.updateBalance(username, balance);
 				
 				System.out.println();
-				logger.debug(username + " made a withdrawal.");
+				logger.debug(whoChecked(accountType) + " made a withdrawal from " + username + "'s account.");
 				System.out.println("__________________________________");
 				System.out.println();
 				
@@ -149,44 +106,23 @@ public class BankAccount {
 				System.out.println();
 				System.out.println("Account does not have sufficient funds. Please check your current balance, and try again. Thanks!");
 				System.out.println();	
-				logger.debug(username + " unsuccessfully tried to make a withdrawal.");
+				logger.debug(whoChecked(accountType) + " unsuccessfully tried to make a withdrawal from " + username + "'s account.");
 				System.out.println("__________________________________");
 				System.out.println();
 			}
 			
-			switch(accountType) {
-			
-			case 1 :
-	
-				Menu.customerMenu(username);
-				break;
-				
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-		
-			}	
+			menuSwitch(accountType, username);
 			
 		} else {
 		
 		System.out.println();
 		System.out.print("This account has not yet been approved.");
 		System.out.println();
-		logger.debug(username + " tried to make a withdrawal, but their account is not yet approved.");
+		logger.debug(whoChecked(accountType) + " tried to make a withdrawal from " + username + "'s account, but the account is not yet approved.");
 		System.out.println("__________________________________");
 		System.out.println();
-		Menu.welcomeMenu();
+		menuSwitch(accountType, username);
+		
 		}
 		
 		return balance;
@@ -211,43 +147,22 @@ public class BankAccount {
 			BankAccountDAO.updateBalance(username, balance);
 			
 			System.out.println();
-			logger.debug(username + " made a deposit of $" + amountToDeposit + ".");
+			logger.debug(whoChecked(accountType) + " made a deposit of $" + amountToDeposit + " into " + username + "'s account.");
 			System.out.println("__________________________________");
 			System.out.println();
 			
-			switch(accountType) {
-			
-			case 1 :
-	
-				Menu.customerMenu(username);
-				break;
-				
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-		
-			}
+			menuSwitch(accountType, username);
 			
 		} else {
 		
 		System.out.println();
 		System.out.print("This account has not yet been approved.");			
 		System.out.println();
-		logger.debug(username + " tried to make a deposit, but their account is not yet approved.");
+		logger.debug(whoChecked(accountType) + " tried to make a deposit into " + username + "'s account, but the account is not yet approved.");
 		System.out.println("__________________________________");
 		System.out.println();
-		Menu.welcomeMenu();
+		
+		menuSwitch(accountType, username);
 		
 		}
 		
@@ -282,54 +197,35 @@ public class BankAccount {
 				System.out.println(username + "'s new balance is: " + balance);
 				System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
 				System.out.println();
-				logger.debug(username + " made a transfer of $" + amountToTransfer + " to " + accountToTransfer + "'s account.");
+				logger.debug(whoChecked(accountType) + " made a transfer of $" + amountToTransfer + " from " + username + "'s account to " + accountToTransfer + "'s account.");
 				System.out.println("__________________________________");
 				System.out.println();
 				
-				switch(accountType) {
-				
-					case 1 :
-			
-						Menu.customerMenu(username);
-						break;
-						
-					case 2 :
-						
-						Menu.adminMenu();
-						break;
-						
-					case 3 :
-						
-						Menu.employeeMenu();
-						break;
-						
-					default :
-						
-						Menu.welcomeMenu();
-						break;
-					}
+				menuSwitch(accountType, username);
 				
 				} else {
 					
 					System.out.println();
 					System.out.print("This account has not yet been approved.");
 					System.out.println();
-					logger.debug(username + " tried to make a transfer, but the account they tried to transfer to is not yet approved.");
+					logger.debug(whoChecked(accountType) + " tried to make a transfer from " + username + "'s account to " + accountToTransfer + "'s account, but " + accountToTransfer + "'s account is not yet approved.");
 					System.out.println("__________________________________");
 					System.out.println();
-					Menu.welcomeMenu();
+					menuSwitch(accountType, username);
+					
 				}
 	
 				
 			} else {
 			
-			System.out.println();
-			System.out.print("This account has not yet been approved.");
-			System.out.println();
-			logger.debug(username + " tried to make a transfer, but their account is not yet approved.");
-			System.out.println("__________________________________");
-			System.out.println();
-			Menu.welcomeMenu();
+				System.out.println();
+				System.out.print("This account has not yet been approved.");
+				System.out.println();
+				logger.debug(whoChecked(accountType) + " tried to make a transfer from " + username + "'s account, but the account is not yet approved.");
+				System.out.println("__________________________________");
+				System.out.println();
+				
+				menuSwitch(accountType, username);
 			
 			}
 		}
@@ -465,25 +361,7 @@ public class BankAccount {
 				break;
 		}
 		
-		switch(accountType) {
-			
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-	
-		}	
-		
+		menuSwitch2(accountType);
 		
 	}
 	
@@ -501,6 +379,16 @@ public class BankAccount {
 		
 		}
 		
+		System.out.println();
+		System.out.println("Here are the current accounts: ");
+		System.out.println();
+		ArrayList<BankAccount> pendingAccounts = BankAccountDAO.getPendingAccounts();
+
+		for(BankAccount account : pendingAccounts){
+			
+			System.out.println(account.toString());
+		}
+		
 		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Which account number would you like to delete?");
@@ -511,24 +399,7 @@ public class BankAccount {
 		logger.debug("A(n) " + employeeType + " deleted Account #" + accountToDelete + ".");
 
 		
-		switch(accountType) {
-			
-			case 2 :
-				
-				Menu.adminMenu();
-				break;
-				
-			case 3 :
-				
-				Menu.employeeMenu();
-				break;
-				
-			default :
-				
-				Menu.welcomeMenu();
-				break;
-	
-		}	
+		menuSwitch2(accountType);
 		
 	}
 	
@@ -550,6 +421,70 @@ public class BankAccount {
 		return result;
 			
 		}
+
+	public String whoChecked(int accountType) {
+		
+		String whoChecked = "";
+		
+		if (accountType == 1) {
+			whoChecked = "The Client";
+		} else if (accountType == 2) {
+			whoChecked = "A Bank Admin";
+		} else if (accountType == 3) {
+			whoChecked = "An Employee";
+		}
+		
+		return whoChecked;
+	}
+	
+	public void menuSwitch(int accountType, String username) {
+		
+		switch(accountType) {
+			
+		case 1 :
+
+			Menu.customerMenu(username);
+			break;
+			
+		case 2 :
+			
+			Menu.adminMenu();
+			break;
+			
+		case 3 :
+			
+			Menu.employeeMenu();
+			break;
+			
+		default :
+			
+			Menu.welcomeMenu();
+			break;
+	
+		}
+	}
+	
+	public static void menuSwitch2(int accountType) {
+		
+		switch(accountType) {
+			
+		case 2 :
+			
+			Menu.adminMenu();
+			break;
+			
+		case 3 :
+			
+			Menu.employeeMenu();
+			break;
+			
+		default :
+			
+			Menu.welcomeMenu();
+			break;
+		}
+	}
+	
 	
 	public BankAccount() {
 			
