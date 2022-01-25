@@ -1,0 +1,5 @@
+2022-01-24 18:14:22.604 [main] DEBUG com.revature.accounts.BankAccount - The Client made a deposit of $10000 into allison's account.
+2022-01-24 18:16:31.752 [main] DEBUG com.revature.accounts.BankAccount - The Client checked the account status for allie's Account #54.
+2022-01-24 19:05:56.868 [main] DEBUG com.revature.accounts.BankAccount - A(n) Employee denied Account #51.
+2022-01-24 19:06:03.977 [main] DEBUG com.revature.accounts.BankAccount - A(n) Employee denied Account #52.
+2022-01-24 19:06:12.795 [main] DEBUG com.revature.accounts.BankAccount - A(n) Employee denied Account #53.

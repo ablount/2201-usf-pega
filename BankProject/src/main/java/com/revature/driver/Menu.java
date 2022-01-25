@@ -7,18 +7,15 @@ import com.revature.dao.UserAccountDAO;
 
 public class Menu {
 	
-	
+	public static Scanner menuScanner = new Scanner(System.in);
 	
 	public static String welcomeMenu() {
 	
 		System.out.println("Welcome to Bank of Allison!");
 		System.out.println("How can we help you today?");
-		System.out.println();
-		
-		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-	    
+		System.out.println();	    
 		System.out.println("Would you like to Login (1) or Register (2)");
-	    String welcomeResult = myObj.nextLine();  // Read user input
+	    String welcomeResult = menuScanner.nextLine();  // Read user input
 	    
 	    return logIn(welcomeResult);
     		
@@ -36,13 +33,12 @@ public class Menu {
 				System.out.println();
 				System.out.println("Let's get you logged in.");
 				System.out.println();
-				Scanner welcomeScanner = new Scanner(System.in);
 				System.out.println("Clients (1)");
 				System.out.println("Bank Employee (2)");
 				System.out.println("Bank Administrator (3)");
 				System.out.println();
 				System.out.println("Return to Previous Screen (4)");
-				String logInResult = welcomeScanner.nextLine();
+				String logInResult = menuScanner.nextLine();
 			
 				
 				switch (logInResult) {
@@ -52,10 +48,10 @@ public class Menu {
 						System.out.println();
 						
 						System.out.print("Please enter your username: ");
-						String username = welcomeScanner.nextLine();
+						String username = menuScanner.nextLine();
 						
 						System.out.print("Please enter your password: ");
-						String password = welcomeScanner.nextLine();
+						String password = menuScanner.nextLine();
 						
 						
 						if (userDao.doUsernamePasswordExist(username, password, 1)) {
@@ -69,6 +65,8 @@ public class Menu {
 							System.out.println("That username does not exist, the password is incorrect, or you have not selected the correct account type.");
 							System.out.println("Please try again, or contact the bank for further assistance. Thanks!");
 							System.out.println();
+							System.out.println("__________________________________");
+							System.out.println();
 							welcomeMenu();
 						}
 						
@@ -78,10 +76,10 @@ public class Menu {
 						
 						System.out.println();
 						System.out.print("Please enter your username: ");
-						String username2 = welcomeScanner.nextLine();
+						String username2 = menuScanner.nextLine();
 						
 						System.out.print("Please enter your password: ");
-						String password2 = welcomeScanner.nextLine();
+						String password2 = menuScanner.nextLine();
 												
 						if (userDao.doUsernamePasswordExist(username2, password2, 2)) {
 						
@@ -97,6 +95,7 @@ public class Menu {
 							System.out.println();
 							welcomeMenu();
 						}
+						
 						break;
 						
 					case "3" :
@@ -104,10 +103,10 @@ public class Menu {
 						System.out.println();
 						
 						System.out.print("Please enter your username: ");
-						String username3 = welcomeScanner.nextLine();
+						String username3 = menuScanner.nextLine();
 						
 						System.out.print("Please enter your password: ");
-						String password3 = welcomeScanner.nextLine();
+						String password3 = menuScanner.nextLine();
 												
 						if (userDao.doUsernamePasswordExist(username3, password3, 3)) {
 						
@@ -120,12 +119,17 @@ public class Menu {
 							System.out.println("That username does not exist, the password is incorrect, or you have not selected the correct account type.");
 							System.out.println("Please try again, or contact the bank for further assistance. Thanks!");
 							System.out.println();
+							System.out.println("__________________________________");
+							System.out.println();
 							welcomeMenu();
 						}
+						
 						break;
 						
 					case "4" :
-						
+						System.out.println();
+						System.out.println("__________________________________");
+						System.out.println();
 						welcomeMenu();
 						break;
 					
@@ -144,21 +148,22 @@ public class Menu {
 					
 				default :
 					System.out.println("Please reviw your options, and try again. Thanks!");
-
+					break;
 		}
 		
 		return welcomeResult;
 	}
 	
 	public static void register() {
+		
 		System.out.println("We're so glad you'd like to bank with us!");
 		System.out.println();
-		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 		System.out.print("Please enter the username you'd like to use: ");
 
-		String username = myObj.nextLine();
+		String username = menuScanner.nextLine();
 		
 		UserAccountDAO userDao = new UserAccountDAO();
+		
 		if (userDao.isUsernameTaken(username)) {
 			System.out.println("Unfortunately, that username is already taken! Let's try again...");
 			return;
@@ -166,17 +171,17 @@ public class Menu {
 		
 		System.out.print("Please enter the password you'd like to use (cover your screen): ");
 		
-		String password = myObj.nextLine();
+		String password = menuScanner.nextLine();
 		
 		System.out.println("Please enter the corresponding number for the type of account you are creating:");
 		System.out.println("Client (1)");
 		System.out.println("Bank Employee (2)");
 		System.out.println("Bank Administrator (3)");
-		int accountType = myObj.nextInt();
+		String accountType = menuScanner.nextLine();
 		
-		userDao.signUp(username, password, accountType);
+		userDao.signUp(username, password, Integer.parseInt(accountType));
 		
-		switch (accountType) {
+		switch (Integer.parseInt(accountType)) {
 		
 			case 1 : 
 				
@@ -198,9 +203,14 @@ public class Menu {
 				
 			System.out.println("There was an error registering your account.");
 			System.out.println("Please try again, or contact your local bank branch.");
-			
+			break;
 		}
 		
+		System.out.println();
+		System.out.println("__________________________________");
+		System.out.println();
+		welcomeMenu();
+	
 	}
 	
 	public static String customerMenu(String username) {
@@ -209,7 +219,6 @@ public class Menu {
 		System.out.println("Welcome to the Customer Portal.");
 		System.out.println();
 		
-		Scanner myObj = new Scanner(System.in);
 		System.out.println("Would you like to:");
 		System.out.println();
 		System.out.println("View your Account Details (1)");
@@ -220,7 +229,7 @@ public class Menu {
 		System.out.println("Create an account for an additional Acccount Owner (6)");
 		System.out.println();
 		System.out.println("Return to Login Menu (7)");
-	    String customerAccountResult = myObj.nextLine();
+	    String customerAccountResult = menuScanner.nextLine();
 	    
 	    
 	    return customerAccountAccess(customerAccountResult, username);
@@ -269,6 +278,9 @@ public class Menu {
 					break;
 					
 				case "7" :
+					System.out.println();
+					System.out.println("__________________________________");
+					System.out.println();
 					welcomeMenu();
 					break;
 					
@@ -287,7 +299,6 @@ public class Menu {
 		System.out.println("Welcome to the Bank Administrator Portal.");
 		System.out.println();
 		
-		Scanner myObj = new Scanner(System.in);
 		System.out.println("Would you like to:");
 		System.out.println();
 		System.out.println("View a Client's Account Details (1)");
@@ -299,7 +310,7 @@ public class Menu {
 		System.out.println("Cancel a Client's Account (6)");
 		System.out.println();
 		System.out.println("Return to Login Menu (7)");
-	    String adminAccountResult = myObj.nextLine();
+	    String adminAccountResult = menuScanner.nextLine();
 	    
 	    
 	    return adminAccountAccess(adminAccountResult);
@@ -313,10 +324,9 @@ public class Menu {
 			
 			case "1" : 
 				
-				Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 				System.out.print("Please enter the username on the account you'd like to view: ");
 
-				String username = myObj.nextLine();
+				String username = menuScanner.nextLine();
 				
 				BankAccount myBankAccount = BankAccountDAO.accessAccount(username);
 				
@@ -326,9 +336,8 @@ public class Menu {
 				
 			case "2" :
 				
-				Scanner myObj2 = new Scanner(System.in);  // Create a Scanner object
 				System.out.print("Please enter the username on the account you'd like to withdraw money from: ");
-				String username2 = myObj2.nextLine();
+				String username2 = menuScanner.nextLine();
 				
 				BankAccount myBankAccount2 = BankAccountDAO.accessAccount(username2);
 				
@@ -338,9 +347,8 @@ public class Menu {
 				
 			case "3" : 
 				
-				Scanner myObj3 = new Scanner(System.in);  // Create a Scanner object
 				System.out.print("Please enter the username on the account you'd like to deposit money into: ");
-				String username3 = myObj3.nextLine();
+				String username3 = menuScanner.nextLine();
 				
 				BankAccount myBankAccount3 = BankAccountDAO.accessAccount(username3);
 				
@@ -350,9 +358,8 @@ public class Menu {
 				
 				
 			case "4" :
-				Scanner myObj4 = new Scanner(System.in);  // Create a Scanner object
 				System.out.print("Please enter the username on the account you'd like to transfer money from: ");
-				String username4 = myObj4.nextLine();
+				String username4 = menuScanner.nextLine();
 				
 				BankAccount myBankAccount4 = BankAccountDAO.accessAccount(username4);
 				
@@ -373,6 +380,9 @@ public class Menu {
 				break;
 				
 			case "7" :
+				System.out.println();
+				System.out.println("__________________________________");
+				System.out.println();
 				welcomeMenu();
 				
 				break;
@@ -392,7 +402,6 @@ public class Menu {
 			System.out.println("Welcome to the Employee Portal.");
 			System.out.println();
 			
-			Scanner myObj = new Scanner(System.in);
 			System.out.println("Would you like to:");
 			System.out.println();
 			System.out.println("View a Client's Account Details (1)");
@@ -400,7 +409,7 @@ public class Menu {
 			System.out.println("Cancel a Client's Account (3)");
 			System.out.println();
 			System.out.println("Return to Login Menu (4)");
-		    String employeeAccountResult = myObj.nextLine();
+		    String employeeAccountResult = menuScanner.nextLine();
 		    
 		    
 		    return employeeAccountAccess(employeeAccountResult);
@@ -414,10 +423,9 @@ public class Menu {
 		
 			case "1" : 
 				
-				Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 				System.out.print("Please enter the username on the account you'd like to view: ");
 
-				String username = myObj.nextLine();
+				String username = menuScanner.nextLine();
 				
 				BankAccount myBankAccount = BankAccountDAO.accessAccount(username);
 				
@@ -439,6 +447,9 @@ public class Menu {
 				break;
 				
 			case "4" :
+				System.out.println();
+				System.out.println("__________________________________");
+				System.out.println();
 				welcomeMenu();
 				break;
 				

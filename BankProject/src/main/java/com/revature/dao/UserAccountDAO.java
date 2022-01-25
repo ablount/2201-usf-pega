@@ -288,34 +288,6 @@ public class UserAccountDAO {
 		return false;
 	}
 	
-	public int getAccountTypes(int accountType) {
-		
-		try {
-			
-			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(accountType) FROM userAccounts WHERE accountType = ?");
-			
-			preparedStatement.setInt(1, accountType);
-			
-			ResultSet results = preparedStatement.executeQuery();
-			
-			while (results.next()) {
-	
-				int count = results.getInt("count");
-				
-				return count;
-			
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		}
-	
-	return -1;
-	
-	}
 }
 
 

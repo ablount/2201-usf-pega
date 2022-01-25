@@ -120,9 +120,14 @@ public class AccountTests {
 		public void testFive() {
 			
 			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.signUp("testUser", "testPassword", 1);
+
 			boolean test = userAccountDAO.isUsernameTaken("testUser");
 			
 			assertTrue(test == true);
+			
+			userAccountDAO.deleteUserAccount("testUser");
+
 			
 		}
 		
@@ -130,6 +135,8 @@ public class AccountTests {
 		public void testSix() {
 			
 			UserAccountDAO userAccountDAO = new UserAccountDAO();
+			userAccountDAO.signUp("testUser", "testPassword", 1);
+
 			userAccountDAO.deleteUserAccount("testUser");
 			
 			boolean test = userAccountDAO.isUsernameTaken("testUser");
@@ -147,7 +154,8 @@ public class AccountTests {
 			BankAccountDAO.updateBalance("testUser", 5000);
 			
 			assertTrue(BankAccountDAO.accessAccount("testUser").balance == 5000);
-	
+			
+			userAccountDAO.deleteUserAccount("testUser");
 			
 		}
 		
@@ -160,11 +168,13 @@ public class AccountTests {
 			BankAccountDAO.updateAccountID("testUser", 1);
 			
 			assertTrue(BankAccountDAO.accessAccount("testUser").accountID == 1);
+			
+			userAccountDAO.deleteUserAccount("testUser");
+
 		}
 		
 		@Test
 		public void testNine() {
-
 			
 			UserAccountDAO userAccountDAO = new UserAccountDAO();
 			userAccountDAO.signUp("testUser", "testPassword", 1);
@@ -172,6 +182,9 @@ public class AccountTests {
 			BankAccountDAO.approveAccount(BankAccountDAO.accessAccount("testUser").accountID);
 			
 			assertTrue(BankAccountDAO.accessAccount("testUser").isApproved == true);
+			
+			userAccountDAO.deleteUserAccount("testUser");
+
 
 		}
 		
@@ -186,15 +199,8 @@ public class AccountTests {
 			boolean test = userAccountDAO.isUsernameTaken("testUser");
 
 			assertFalse(test == true);
+			
+			
 		}
 
-		
-		@AfterEach
-		public void cleanUp() {
-			
-			UserAccountDAO userAccountDAO = new UserAccountDAO();
-			userAccountDAO.deleteUserAccount("testUser");
-			
-			
-		}		
 }

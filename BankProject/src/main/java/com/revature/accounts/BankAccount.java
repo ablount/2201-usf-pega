@@ -15,6 +15,7 @@ public class BankAccount {
 	public int accountID;
 	public int balance;
 	public boolean isApproved;
+	static Scanner bankScanner = new Scanner(System.in);
 	
 	public BankAccount(int accountID, int balance, boolean isApproved){
 		this.accountID = accountID;
@@ -86,13 +87,12 @@ public class BankAccount {
 		if (isApproved == true) {
 			
 			System.out.println();
-			Scanner myObj = new Scanner(System.in);
 			System.out.println("The current balance is: " + balance);
 			System.out.println("How much would you like to withdraw?");
-			int amountToWithdraw = myObj.nextInt();
+			String amountToWithdraw = bankScanner.nextLine();
 			
-			if (amountToWithdraw <= balance && amountToWithdraw > 0) {
-				balance -= amountToWithdraw;
+			if (Integer.parseInt(amountToWithdraw) <= balance && Integer.parseInt(amountToWithdraw)  > 0) {
+				balance -= Integer.parseInt(amountToWithdraw);
 				System.out.println("The new balance is: " + balance);
 				BankAccountDAO.updateBalance(username, balance);
 				
@@ -135,14 +135,13 @@ public class BankAccount {
 		if (isApproved == true) {
 		
 			System.out.println();	
-			Scanner myObj = new Scanner(System.in);
 			System.out.println("Your current balance is: " + balance);
 			System.out.println("How much would you like to deposit?");
-			int amountToDeposit = myObj.nextInt();
+			String amountToDeposit = bankScanner.nextLine();
 			
-			if (amountToDeposit > 0) {
+			if (Integer.parseInt(amountToDeposit) > 0) {
 				
-				balance += amountToDeposit;
+				balance += Integer.parseInt(amountToDeposit);
 				
 				System.out.println();
 				System.out.println("The new balance is: " + balance);
@@ -189,23 +188,21 @@ public class BankAccount {
 		if (isApproved == true) {
 		
 			System.out.println();	
-			Scanner myObj = new Scanner(System.in);
 			System.out.println("The current balance is: " + balance);
 			System.out.println("How much would you like to transfer?");
-			int amountToTransfer = myObj.nextInt();
-			myObj.nextLine();
+			String amountToTransfer = bankScanner.nextLine();
 			
-			if (amountToTransfer <= balance && amountToTransfer > 0) {
+			if (Integer.parseInt(amountToTransfer) <= balance && Integer.parseInt(amountToTransfer) > 0) {
 				
 				System.out.println("What is the username on the account to which you'd like to transfer $" + amountToTransfer + "?");
-				String accountToTransfer = myObj.nextLine();
+				String accountToTransfer = bankScanner.nextLine();
 				
 				if (BankAccountDAO.accessAccount(accountToTransfer).isApproved == true) {
 					
-					balance -= amountToTransfer;
+					balance -= Integer.parseInt(amountToTransfer);
 					BankAccountDAO.updateBalance(username, balance);
 				
-					BankAccountDAO.updateBalance(accountToTransfer, BankAccountDAO.accessAccount(accountToTransfer).balance + amountToTransfer);
+					BankAccountDAO.updateBalance(accountToTransfer, BankAccountDAO.accessAccount(accountToTransfer).balance + Integer.parseInt(amountToTransfer));
 				
 					System.out.println();
 					System.out.println("$" + amountToTransfer + " from " + username + " has been transferred to " + accountToTransfer);
@@ -266,12 +263,11 @@ public class BankAccount {
 		UserAccountDAO userDao = new UserAccountDAO();
 		
 		System.out.println();
-		Scanner joinAccount = new Scanner(System.in);
 		System.out.print("Please enter the username for the joint account owner: ");
-		String joinUsername = joinAccount.nextLine();
+		String joinUsername = bankScanner.nextLine();
 		
 		System.out.print("Please enter the password for the joint account owner: ");
-		String joinPassword = joinAccount.nextLine();
+		String joinPassword = bankScanner.nextLine();
 		
 		
 		if (userDao.doUsernamePasswordExist(joinUsername, joinPassword, 1)) {
@@ -300,7 +296,7 @@ public class BankAccount {
 		System.out.println();
 		System.out.println("Return to " + username + "'s Customer Portal (1)");
 		System.out.println("View " + joinUsername + "'s Customer Portal (2)");
-		String accountReturn = joinAccount.nextLine();
+		String accountReturn = bankScanner.nextLine();
 		
 		switch(accountReturn) {
 		
@@ -340,16 +336,15 @@ public class BankAccount {
 		System.out.println();
 		System.out.println("Which account number would you like to approve or deny?");
 		System.out.println("Return to Portal (0)");
-		Scanner s = new Scanner(System.in);
-		int accountID = s.nextInt();
+		String accountID = bankScanner.nextLine();
 		
-		if (accountID == 0) {
+		if (Integer.parseInt(accountID) == 0) {
 		
 			menuSwitch2(accountType);
 			
 		} else {
 		 	
-			approveDenyAccount(accountID, accountType);
+			approveDenyAccount(Integer.parseInt(accountID), accountType);
 		
 		}
 	
@@ -369,11 +364,10 @@ public class BankAccount {
 		
 		}
 		
-		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Would you like to Approve Account (1) or Deny/Delete Account (2)?");
 		System.out.println("Return to Portal (0)");
-		String approveDeny = s.nextLine();
+		String approveDeny = bankScanner.nextLine();
 		
 		if (approveDeny == "0") {
 			
@@ -433,19 +427,18 @@ public class BankAccount {
 			System.out.println(account.toString());
 		}
 		
-		Scanner s = new Scanner(System.in);
 		System.out.println();
 		System.out.println("Which account number would you like to delete?");
 		System.out.println("Return to Portal (0)");
-		int accountToDelete = s.nextInt();
+		String accountToDelete = bankScanner.nextLine();
 		
-		if (accountToDelete == 0) {
+		if (Integer.parseInt(accountToDelete) == 0) {
 			
 			menuSwitch2(accountType);
 			
 		} else {
 		
-			BankAccountDAO.removeAccount(accountToDelete);
+			BankAccountDAO.removeAccount(Integer.parseInt(accountToDelete) );
 		
 			logger.debug("A(n) " + employeeType + " deleted Account #" + accountToDelete + ".");
 

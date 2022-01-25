@@ -33,14 +33,14 @@ public class BankAccountController {
 		// getAccountDetails is what I'm calling this method/what I'll call it in my DAO
 		
 		try {
-		BankAccount controllerUser = bankDAO.getAccountDetails(ctx.pathParam("username"));
+		BankAccount gottenAccount = bankDAO.getAccountDetails(ctx.pathParam("username"));
 		// the dark blue is what I want to show in the browser (I want to show the details of a bank account)
 		// the yellow is a random name I chose
 		// light blue is the instance of the DAO I named at the beginning of this class
 		// green is the name of the method I'm going to make in my DAO
 		// "username" is the parameter I specified above that will come from the URL someone types in their browser
 		
-		ctx.json(controllerUser);
+		ctx.json(gottenAccount);
 		
 		ctx.status(200);
 		
@@ -56,9 +56,9 @@ public class BankAccountController {
 			
 		int account = 0;
 			
-		BankAccount controllerUser = bankDAO.getBankAccountDetails(account = Integer.parseInt(ctx.pathParam("account")));
+		BankAccount gottenAccount = bankDAO.getBankAccountDetails(account = Integer.parseInt(ctx.pathParam("account")));
 		
-		ctx.json(controllerUser);
+		ctx.json(gottenAccount);
 		
 		ctx.status(200);
 		
@@ -73,9 +73,9 @@ public class BankAccountController {
 		
 		int deposit = 0;
 		
-		boolean controllerUser = bankDAO.onlineDeposit(ctx.pathParam("username"), (deposit = Integer.parseInt(ctx.pathParam("deposit"))));
+		boolean didDeposit = bankDAO.onlineDeposit(ctx.pathParam("username"), (deposit = Integer.parseInt(ctx.pathParam("deposit"))));
 		
-		ctx.json(controllerUser);
+		ctx.json(didDeposit);
 			
 			ctx.status(204);
 		
@@ -85,9 +85,9 @@ public class BankAccountController {
 		
 		int withdraw = 0;
 		
-		boolean controllerUser = bankDAO.onlineWithdraw(ctx.pathParam("username"), (withdraw = Integer.parseInt(ctx.pathParam("withdraw"))));
+		boolean didWithdraw = bankDAO.onlineWithdraw(ctx.pathParam("username"), (withdraw = Integer.parseInt(ctx.pathParam("withdraw"))));
 		
-		ctx.json(controllerUser);
+		ctx.json(didWithdraw);
 			
 			ctx.status(204);
 		
