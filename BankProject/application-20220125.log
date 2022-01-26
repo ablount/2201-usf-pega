@@ -1,0 +1,17 @@
+2022-01-25 18:34:16.019 [main] DEBUG com.revature.accounts.BankAccount - The Client checked the account status for allison's Account #1.
+2022-01-25 18:34:21.843 [main] DEBUG com.revature.accounts.BankAccount - The Client checked allison's balance.
+2022-01-25 20:35:43.785 [main] DEBUG com.revature.accounts.BankAccount - The Client checked the account status for allison's Account #1.
+2022-01-25 20:35:47.241 [main] DEBUG com.revature.accounts.BankAccount - The Client checked allison's balance.
+2022-01-25 20:37:03.212 [main] DEBUG com.revature.accounts.BankAccount - The Client checked the account status for allison's Account #1.
+2022-01-25 20:37:05.807 [main] DEBUG com.revature.accounts.BankAccount - The Client checked allison's balance.
+2022-01-25 20:37:11.980 [main] DEBUG com.revature.accounts.BankAccount - The Client made a withdrawal from allison's account.
+2022-01-25 21:54:20.180 [main] DEBUG com.revature.accounts.BankAccount - The Client checked the account status for anthony's Account #82.
+2022-01-25 21:54:28.459 [main] DEBUG com.revature.accounts.BankAccount - The Client tried to make a withdrawal from anthony's account, but the account is not yet approved.
+2022-01-25 21:54:50.337 [main] DEBUG com.revature.accounts.BankAccount - The Client checked allison's balance.
+2022-01-25 21:54:57.650 [main] DEBUG com.revature.accounts.BankAccount - The Client made a withdrawal from allison's account.
+2022-01-25 21:55:02.622 [main] DEBUG com.revature.accounts.BankAccount - The Client made a deposit of $10000 into allison's account.
+2022-01-25 21:55:25.106 [main] DEBUG com.revature.accounts.BankAccount - The Client tried to make a transfer from allison's account to allie's account, but allie's account is not yet approved.
+2022-01-25 21:55:43.872 [main] DEBUG com.revature.accounts.BankAccount - The Client made a transfer of $90 from allison's account to lukasz's account.
+2022-01-25 21:55:56.854 [main] DEBUG com.revature.accounts.BankAccount - mark was added to allison's account - Account #1.
+2022-01-25 21:56:28.874 [main] DEBUG com.revature.accounts.BankAccount - A(n) Employee approved Account #82.
+2022-01-25 21:56:39.835 [main] DEBUG com.revature.accounts.BankAccount - A(n) Employee denied Account #54.

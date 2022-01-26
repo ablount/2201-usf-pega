@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 public class BankAccount {
 	
-
 	public int accountID;
 	public int balance;
 	public boolean isApproved;
@@ -59,7 +58,7 @@ public class BankAccount {
 		if (isApproved == true) {
 		
 			System.out.println();
-			System.out.println("The current balance is: " + balance);
+			System.out.println("The current balance is: $" + balance);
 			System.out.println();
 			logger.debug(whoChecked(accountType) + " checked " + username + "'s balance.");
 			System.out.println("__________________________________");
@@ -87,13 +86,13 @@ public class BankAccount {
 		if (isApproved == true) {
 			
 			System.out.println();
-			System.out.println("The current balance is: " + balance);
+			System.out.println("The current balance is: $" + balance);
 			System.out.println("How much would you like to withdraw?");
 			String amountToWithdraw = bankScanner.nextLine();
 			
 			if (Integer.parseInt(amountToWithdraw) <= balance && Integer.parseInt(amountToWithdraw)  > 0) {
 				balance -= Integer.parseInt(amountToWithdraw);
-				System.out.println("The new balance is: " + balance);
+				System.out.println("The new balance is: $" + balance);
 				BankAccountDAO.updateBalance(username, balance);
 				
 				System.out.println();
@@ -135,7 +134,7 @@ public class BankAccount {
 		if (isApproved == true) {
 		
 			System.out.println();	
-			System.out.println("Your current balance is: " + balance);
+			System.out.println("Your current balance is: $" + balance);
 			System.out.println("How much would you like to deposit?");
 			String amountToDeposit = bankScanner.nextLine();
 			
@@ -144,7 +143,7 @@ public class BankAccount {
 				balance += Integer.parseInt(amountToDeposit);
 				
 				System.out.println();
-				System.out.println("The new balance is: " + balance);
+				System.out.println("The new balance is: $" + balance);
 				
 				BankAccountDAO.updateBalance(username, balance);
 				
@@ -188,7 +187,7 @@ public class BankAccount {
 		if (isApproved == true) {
 		
 			System.out.println();	
-			System.out.println("The current balance is: " + balance);
+			System.out.println("The current balance is: $" + balance);
 			System.out.println("How much would you like to transfer?");
 			String amountToTransfer = bankScanner.nextLine();
 			
@@ -207,7 +206,7 @@ public class BankAccount {
 					System.out.println();
 					System.out.println("$" + amountToTransfer + " from " + username + " has been transferred to " + accountToTransfer);
 					System.out.println();
-					System.out.println(username + "'s new balance is: " + balance);
+					System.out.println(username + "'s new balance is: $" + balance);
 					System.out.println(accountToTransfer + "'s new balance is: " + BankAccountDAO.accessAccount(accountToTransfer).balance);
 					System.out.println();
 					logger.debug(whoChecked(accountType) + " made a transfer of $" + amountToTransfer + " from " + username + "'s account to " + accountToTransfer + "'s account.");

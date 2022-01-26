@@ -24,7 +24,7 @@ public class BankAccountController {
 		//	parameter the that will be taken from the URL that's typed into the browser
 		// the light blue is whatever you want to call your method you'll build in your DAO 
 		app.get("/bankAccounts/{username}", getAccountDetails);
-		app.get("/bankAccounts/{account}", getBankAccountDetails);
+		app.get("/bankAccount/{account}", getBankAccountDetails);
 		app.put("/bankAccounts/deposit/{username}/{deposit}", onlineDeposit);
 		app.put("/bankAccounts/withdraw/{username}/{withdraw}", onlineWithdraw);
 	}
